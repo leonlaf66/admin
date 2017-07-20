@@ -1,0 +1,20 @@
+{
+  "name": "estate",
+  "version": "1.0.0",
+  "description": "Yii 2 Basic Project Template ============================",
+  "main": "Gruntfile.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "grunt": "^1.0.1",
+    "grunt-babel": "^6.0.0",
+    "grunt-contrib-sass": "^1.0.0",
+    "grunt-contrib-watch": "^1.0.0"
+  }
+}

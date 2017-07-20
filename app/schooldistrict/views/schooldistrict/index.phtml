@@ -1,0 +1,43 @@
+<div class="sd-grid">
+	<?php foreach($codes as $idx=>$code):?>
+		<div class="row-item">
+	    	<?php echo $idx + 1?>: 
+	    	<a href="/index.php?r=schooldistrict/schooldistrict/edit&id=<?php echo urlencode($code)?>">
+	    		<?php echo $code?>
+	    	</a>&nbsp;&nbsp;<a class="btn-remove" href="/index.php?r=schooldistrict/schooldistrict/remove&id=<?php echo urlencode($code)?>">x</a>
+	    </div>
+	<?php endforeach?>
+</div>
+<div style="margin-top:5px;">
+<input value="" placeholder="新编码" id="input-new-code"/><a id="btn-new" class="btn btn-default" style="margin-left:4px;">新增</a>
+</div>
+
+<script type="text/javascript">
+(function($){
+	$('#btn-new').click(function() {
+		var newCode = $('#input-new-code').val();
+		if(newCode.trim() === '') {
+			$('#input-new-code').focus();
+			return;
+		}
+		window.location.href = '/index.php?r=schooldistrict/schooldistrict/edit&id='+newCode;
+	});
+})(jQuery);
+</script>
+
+<style>
+.sd-grid .btn-remove {
+	cursor: pointer;
+    display: none;
+    padding: 2px;
+    font-size: 12px;
+    height: 16px;
+    line-height: 10px;
+    background: #337ab7;
+    color: #fff;
+    border: solid 1px #fff;
+}
+.sd-grid .row-item:hover .btn-remove {
+	display:inline-block;
+}
+</style>

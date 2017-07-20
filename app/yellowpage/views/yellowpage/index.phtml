@@ -1,0 +1,121 @@
+<?php
+use yii\grid\GridView;
+use yii\helpers\Html;
+use yii\helpers\Url;
+use \module\core\component\GridRangeFilter;
+?>
+
+<div class="page-title">
+    Manage Yellowpages
+    <div class="toolbar">
+        <?php echo Html::a(
+                            '<span class="glyphicon glyphicon-plus"></span> New', 
+                            \WS::$app->urlManager->createUrl('yellowpage/yellowpage/edit'),
+                            ['class'=>'btn btn-primary','name' =>'submit-button']
+                        ) ?>
+    </div>
+</div>
+
+<?php
+$gridColumns = [
+    [
+        'attribute'=>'id',
+        'options'=>[
+            'width'=>'80px',
+            'class'=>'text-center'
+        ],
+        'contentOptions'=>[
+            'class'=>'text-center'
+        ]
+    ],
+    [
+        'attribute'=>'name'
+    ],
+    [
+        'attribute'=>'rating',
+        'filter'=>GridRangeFilter::range(
+            Html::activeTextInput($searchModel, 'rating[0]', ['placeholder'=>'From', 'class'=>"form-control"]),
+            Html::activeTextInput($searchModel, 'rating[1]', ['placeholder'=>'To', 'class'=>"form-control"])
+        ),
+        'options'=>[
+            'width'=>'70px'
+        ],
+        'contentOptions'=>[
+            'class'=>'text-center'
+        ]
+    ],
+    [
+        'attribute'=>'hits',
+        'filter'=>GridRangeFilter::range(
+            Html::activeTextInput($searchModel, 'hits[0]', ['placeholder'=>'From', 'class'=>"form-control"]),
+            Html::activeTextInput($searchModel, 'hits[1]', ['placeholder'=>'To', 'class'=>"form-control"])
+        ),
+        'options'=>[
+            'width'=>'70px'
+        ],
+        'contentOptions'=>[
+            'class'=>'text-center'
+        ]
+    ],
+    [
+        'attribute'=>'comments',
+        'filter'=>GridRangeFilter::range(
+            Html::activeTextInput($searchModel, 'comments[0]', ['placeholder'=>'From', 'class'=>"form-control"]),
+            Html::activeTextInput($searchModel, 'comments[1]', ['placeholder'=>'To', 'class'=>"form-control"])
+        ),
+        'options'=>[
+            'width'=>'70px'
+        ],
+        'contentOptions'=>[
+            'class'=>'text-center'
+        ]
+    ],
+    [
+        'attribute'=>'weight',
+        'options'=>[
+            'width'=>'70px'
+        ],
+        'format'=>'raw',
+        'value'=>function($m){
+            return Html::activeTextInput($m, 'weight', ['size'=>'3', 'style'=>'text-align:center', 'class'=>'yellowpage-weight']);
+        },
+        'contentOptions'=>[
+            'class'=>'text-center'
+        ]
+    ],
+    [
+        'class' => 'yii\grid\ActionColumn',
+        'header'=>'Actions',
+        'buttons'=>[
+            'view'=>function(){return '';}
+        ],
+        'options'=>[
+            'width'=>'30px'
+        ],
+        'contentOptions'=>[
+            'class'=>'text-center'
+        ]
+    ],
+];
+
+echo GridView::widget([
+    'dataProvider' => $dataProvider,
+    'filterModel' => $searchModel,
+    'columns' => $gridColumns,
+    'emptyCell'=>'&nbsp;'
+]);
+?>
+
+<script>
+$(function(){
+    var weightPostUrl = '<?php echo Url::toRoute(['/yellowpage/yellowpage/index'])?>';
+    $('.table input.yellowpage-weight').change(function(){
+        var $self = $(this),
+            $item = $self.parents('tr[data-key]'),
+            itemId = $item.data('key'),
+            value = $self.val();
+
+        $.get(weightPostUrl, {action:'weight', id:itemId, value: value});
+    });
+});
+</script>

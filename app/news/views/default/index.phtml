@@ -1,0 +1,97 @@
+<?php
+use yii\grid\GridView;
+use yii\helpers\Html;
+use yii\helpers\Url;
+use \module\core\component\GridRangeFilter;
+?>
+
+<div class="page-title">
+    Manage News
+    <div class="toolbar">
+        <?php echo Html::a(
+                            '<span class="glyphicon glyphicon-plus"></span> New', 
+                            \WS::$app->urlManager->createUrl('news/default/edit'),
+                            ['class'=>'btn btn-primary','name' =>'submit-button']
+                        ) ?>
+    </div>
+</div>
+
+<?php
+$typeNames = \common\news\News::types();
+$gridColumns = [
+    [
+        'attribute'=>'id',
+        'options'=>[
+            'width'=>'80px',
+            'class'=>'text-center'
+        ],
+        'contentOptions'=>[
+            'class'=>'text-center'
+        ]
+    ],
+    [
+        'attribute'=>'title',
+        'header'=>'Name'
+    ],
+    [
+        'attribute'=>'type_id',
+        'value'=>function($m) use($typeNames){
+            return $typeNames[$m->type_id];
+        },
+        'options'=>[
+            'width'=>'120px'
+        ],
+        'contentOptions'=>[
+            'class'=>'text-center'
+        ],
+        'header'=>'Type',
+        'filter'=>$typeNames
+    ],
+    [
+        'attribute'=>'created_at',
+        'options'=>[
+            'width'=>'120px'
+        ],
+        'header'=>'Create Time'
+    ],
+    [
+        'attribute'=>'status',
+        'options'=>[
+            'width'=>'70px'
+        ],
+        'filter'=>['0'=>'No Publish', '1'=>'Published'],
+        'value'=>function($m){
+            return $m->status == '0' ? 'No Publish' : 'Published';
+        },
+        'contentOptions'=>[
+            'class'=>'text-center'
+        ],
+    ],
+    [
+        'class' => 'yii\grid\ActionColumn',
+        'header'=>'Action',
+        'buttons'=>[
+            'view'=>function(){return '';},
+            'delete'=>function(){return '';}
+        ],
+        'urlCreator' => function ($action, $model, $key, $index) {
+            if ($action === 'update') {
+                return Url::toRoute(['/news/default/edit', 'id'=>$model->id]);
+            }
+        },
+        'options'=>[
+            'width'=>'30px'
+        ],
+        'contentOptions'=>[
+            'class'=>'text-center'
+        ]
+    ],
+];
+
+echo GridView::widget([
+    'dataProvider' => $dataProvider,
+    'filterModel' => $searchModel,
+    'columns' => $gridColumns,
+    'emptyCell'=>'&nbsp;'
+]);
+?>

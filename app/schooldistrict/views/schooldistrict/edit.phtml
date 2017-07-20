@@ -1,0 +1,397 @@
+<template id="schoolarea-editor" v-if="isReady">
+    <div class="page-title">
+        School District Data Editor
+        <div class="toolbar">
+            <a href="/index.php?r=schooldistrict%2Fschooldistrict%2Findex" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-repeat"></span> Return</a>
+            <button id="btn-submit" type="submit" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-ok-circle"></span> Save</button>
+        </div>
+    </div>
+
+    <div class="schoolarea-editor">
+        <textarea id="json_data" style="display:none;">{{result | json}}</textarea>
+        <div class="group">
+            <h2>General</h2>
+            <div class="field-item">
+                <label>No</label>
+                <div class="input-group">
+                    <input type="number" min="1" v-model="result.ranking" class="input-control">
+                </div>
+            </div>
+            <div class="field-item">
+                <label>Code</label>
+                <div class="input-group">
+                    <input type="text" v-model="result.code" class="input-control">
+                </div>
+            </div>
+            <div class="field-item">
+                <label>Name</label>
+                <div class="input-group">
+                    <input type="text" v-model="result.name[0]" class="input-control" placeholder="English">
+                    <input type="text" v-model="result.name[1]" class="input-control" placeholder="中文">
+                </div>
+            </div>
+            <div class="field-item">
+                <label>Rating</label>
+                <div class="input-group">
+                    <input type="number" min="0" max="5" v-model="result.rating" class="input-control">
+                </div>
+            </div>
+        </div>
+
+        <div class="group">
+            <h2>Specials</h2>
+            <div class="field-item">
+                <label>Population</label>
+                <div class="input-group">
+                    <input type="number" min="0" max="5" v-model="result.special.population" class="input-control">
+                </div>
+            </div>
+            <div class="field-item">
+                <label>Jobless Rate  x%</label>
+                <div class="input-group">
+                    <input type="number" min="0" max="5" v-model="result.special.jobess_rate" class="input-control">
+                </div>
+            </div>
+            <div class="field-item">
+                <label>College Rate x%</label>
+                <div class="input-group">
+                    <input type="number" min="0" max="5" v-model="result.special.college_rate" class="input-control">
+                </div>
+            </div>
+            <div class="field-item">
+                <label>入学人数</label>
+                <div class="input-group">
+                    <input type="number" min="0" max="5" v-model="result.special.special1" class="input-control">
+                </div>
+            </div>
+            <div class="field-item">
+                <label>年平均收入(万)</label>
+                <div class="input-group">
+                    <input type="number" min="0" max="5" v-model="result.special.special2" class="input-control">
+                </div>
+            </div>
+            <div class="field-item">
+                <label>人均费用</label>
+                <div class="input-group">
+                    <input type="number" min="0" max="5" v-model="result.special.special3" class="input-control">
+                </div>
+            </div>
+            <div class="field-item">
+                <label>亚裔学生占比</label>
+                <div class="input-group">
+                    <input type="number" min="0" max="5" v-model="result.special.special4" class="input-control">
+                </div>
+            </div>
+        </div>
+        <div class="group">
+            <h2>Description</h2>
+            <div class="field-item">
+                <label>Content</label>
+                <div class="input-group">
+                    <input type="text" v-model="result.description[0]" class="input-control" placeholder="English">
+                    <input type="text" v-model="result.description[1]" class="input-control" placeholder="中文">
+                </div>
+                <label>Advantage</label>
+                <div class="input-items">
+                    <input type="text" v-model="result.advantage[0]" class="input-control" placeholder="English">
+                    <input type="text" v-model="result.advantage[1]" class="input-control" placeholder="中文">
+                </div>
+            </div>
+        </div>
+
+        <div class="group">
+            <h2>SAT平均分</h2>
+            <div class="field-item">
+                <label>本学区</label>
+                <div class="input-group">
+                    <input type="text" v-model="result.sat.local[0]" placeholder="SAT">
+                    <input type="text" v-model="result.sat.local[1][0]" placeholder="阅读">
+                    <input type="text" v-model="result.sat.local[1][1]" placeholder="写作">
+                    <input type="text" v-model="result.sat.local[1][2]" placeholder="数学">
+                </div>
+                <label>本州</label>
+                <div class="input-items">
+                    <input type="text" v-model="result.sat.state" placeholder="SAT">
+                </div>
+                <label>全美</label>
+                <div class="input-items">
+                    <input type="text" v-model="result.sat.country" placeholder="SAT">
+                </div>
+            </div>
+        </div>
+
+        <div class="group">
+            <h2>Racials</h2>
+            <div class="input-items">
+                <div v-for="(index, item) in result.racials" class="input-item">
+                    <input type="text" v-model="item.name">
+                    <input type="text" v-model="item.value">
+                    <a class="link-btn" @click="removeRacialsItem(index)">x</a>
+                </div>
+                <a class="link-btn" @click="addRacialsItem()">+</a>
+            </div>
+        </div>
+
+        <div class="group">
+            <h2>Schools</h2>
+            <label>小学</label>
+            <div class="input-items">
+                <div v-for="(index, item) in result.schools.grade" class="input-item">
+                    <input type="text" v-model="item.name" placeholder="Name" style="width:250px">
+                    <input type="text" v-model="item.website" placeholder="Website" style="width:350px">
+                    <a class="link-btn" @click="removeSchoolItem('grade', index)">x</a>
+                </div>
+                <a class="link-btn" @click="addSchoolItem('grade')">+</a>
+            </div>
+            <label>初中</label>
+            <div class="input-items">
+                <div v-for="(index, item) in result.schools.middle" class="input-item">
+                    <input type="text" v-model="item.name" placeholder="Name" style="width:250px">
+                    <input type="text" v-model="item.website" placeholder="Website" style="width:350px">
+                    <a class="link-btn" @click="removeSchoolItem('middle', index)">x</a>
+                </div>
+                <a class="link-btn" @click="addSchoolItem('middle')">+</a>
+            </div>
+            <label>高中</label>
+            <div class="input-items">
+                <div v-for="(index, item) in result.schools.high" class="input-item">
+                    <input type="text" v-model="item.name" placeholder="Name" style="width:250px">
+                    <input type="text" v-model="item.website" placeholder="Website" style="width:350px">
+                    <a class="link-btn" @click="removeSchoolItem('high', index)">x</a>
+                </div>
+                <a class="link-btn" @click="addSchoolItem('high')">+</a>
+            </div>
+        </div>
+
+        <div class="group">
+            <h2>Environments</h2>
+            <div class="input-items">
+                <table v-for="(index, item) in result.environments" class="tb-lay grid">
+                    <tr>
+                        <td>
+                            <table class="grid-item">
+                                <tr>
+                                    <th><input type="text" placeholder="English title" v-model="item.name"></th>
+                                    <td><input type="text" placeholder="English content" v-model="item.description"></td>
+                                </tr>
+                                <tr>
+                                    <th><input type="text" placeholder="中文标题" v-model="item.name_cn"></th>
+                                    <td><input type="text" placeholder="中文内容" v-model="item.description_cn"></td>
+                                </tr>
+                            </table>
+                        </td>
+                        <td class="tb-lay-opt">
+                            <a class="link-btn" @click="removeEnvironmentItem(index)">x</a>
+                        </td>
+                    </tr>
+                </table>
+                <a class="link-btn" @click="addEnvironmentItem()">+</a>
+            </div>
+        </div>
+
+        <div class="group">
+            <h2>Features</h2>
+            <div class="input-items">
+                <table v-for="(index, item) in result.features" class="tb-lay grid">
+                    <tr>
+                        <td>
+                            <table class="grid-item">
+                                <tr>
+                                    <th><input type="text" placeholder="English title" v-model="item.name"></th>
+                                    <td><input type="text" placeholder="English content" v-model="item.description"></td>
+                                </tr>
+                                <tr>
+                                    <th><input type="text" placeholder="中文标题" v-model="item.name_cn"></th>
+                                    <td><input type="text" placeholder="中文内容" v-model="item.description_cn"></td>
+                                </tr>
+                            </table>
+                        </td>
+                        <td class="tb-lay-opt">
+                            <a class="link-btn" @click="removeFeatureItem(index)">x</a>
+                        </td>
+                    </tr>
+                </table>
+                <a class="link-btn" @click="addFeatureItem()">+</a>
+            </div>
+        </div>
+
+        <div class="group">
+            <h2>Comments</h2>
+            <div class="input-items">
+                <table v-for="(index, item) in result.comments" class="tb-lay grid">
+                    <tr>
+                        <td>
+                            <table class="grid-item">
+                                <tr>
+                                    <td style="width:130px" valign="top">
+                                        <input type="text" placeholder="人员称呼" v-model="item.name"><br/>
+                                        <input type="text" placeholder="人员类型" v-model="item.type">
+                                        <input type="text" placeholder="从业年限" v-model="item.wordk_years">
+                                    </td>
+                                    <td style="padding-left:5px" valign="top">
+                                        <textarea style="width:100%;height:100%;resize:horizontal;height:70px;border:solid 1px #ddd;margin-top: 2px;" placeholder="评价内容" v-model="item.content"></textarea>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                        <td class="tb-lay-opt">
+                            <a class="link-btn" @click="removeCommentItem(index)">x</a>
+                        </td>
+                    </tr>
+                </table>
+                <a class="link-btn" @click="addCommentItem()">+</a>
+            </div>
+        </div>
+    </div>
+</template>
+
+<script>
+new Vue({
+    el: '#schoolarea-editor',
+    data: {
+        result: {
+            ranking: 0,
+            code: '<?php echo $schoolDistrict->code?>',
+            name: [null, null],
+            rating: null,
+            description: [null, null],
+            advantage: [null, null],
+            special: {
+                population: null, /*人口数*/
+                jobess_rate: null, /*失业率*/
+                college_rate: null, /*大学以上教育比例*/
+                special1: null, /*入学人数*/
+                special2: null, /*年平均收入*/
+                special3: null, /*人均费用*/
+                special4: '%', /*yashang占比*/
+            },
+            sat: {
+                local: [
+                    null,
+                    [null, null, null]
+                ],
+                state: null,
+                country: null
+            },
+            racials: [
+                {name: '亚裔', value: null},
+                {name: '黑人', value: null},
+                {name: '白人', value: null},
+                {name: '西班牙裔', value: null},
+                {name: '其他', value: null}
+            ],
+            schools: {
+                grade: [],
+                middle: [],
+                high: []
+            },
+            environments: [
+                {name: '', name_cn: '', description: '', description_cn: ''}
+            ],
+            features: [
+                {name: '', name_cn: '', description: '', description_cn: ''}
+            ],
+            comments: [
+                {name: '', type: '', wordk_years: '', content: '', lang: 'zh-CN'}
+            ]
+        }
+    },
+    ready: function () {
+        this.isReady = true;
+        <?php if($schoolDistrict->json):?>
+            this.result = $.extend({}, this.result, <?php echo $schoolDistrict->json?>);
+        <?php endif?>
+    },
+    methods: {
+        addRacialsItem: function () {
+            this.result.racials.push({name:'', value: ''})
+        },
+        removeRacialsItem: function (idx) {
+            this.result.racials.splice(idx, 1)
+        },
+        addSchoolItem: function (type) {
+            this.result.schools[type].push({name:'', property: '', website: ''})
+        },
+        removeSchoolItem: function (type, idx) {
+            this.result.schools[type].splice(idx, 1)
+        },
+        addEnvironmentItem: function () {
+            this.result.environments.push({name:'', name_cn: '', description: '', description_cn: ''})
+        },
+        removeEnvironmentItem: function (idx) {
+            this.result.environments.splice(idx, 1)
+        },
+        addFeatureItem: function () {
+            this.result.features.push({name:'', name_cn: '', description: '', description_cn: ''})
+        },
+        removeFeatureItem: function (idx) {
+            this.result.features.splice(idx, 1)
+        },
+        addCommentItem: function () {
+            this.result.comments.push({name: '', type: '', work_years: '', content: '', lang: 'zh-CN'})
+        },
+        removeCommentItem: function (idx) {
+            this.result.comments.splice(idx, 1)
+        }
+    }
+});
+
+(function($){
+    $('#btn-submit').click(function(){
+        var json = $('#json_data').val();
+        var csrf = '<?php echo \WS::$app->getRequest()->getCsrfToken()?>';
+        $.post('/index.php?r=schooldistrict/schooldistrict/edit&id=<?php echo urlencode($schoolDistrict->code)?>', {json: json, _csrf: csrf}, function(){
+            window.location = '/index.php?r=schooldistrict%2Fschooldistrict%2Findex';
+        });
+    });
+})(jQuery);
+
+</script>
+
+<style>
+.schoolarea-editor {
+    line-height:18px;
+}
+.schoolarea-editor .link-btn {
+    cursor:pointer;
+    display:inline-block;
+    padding:2px;
+    border: solid 1px #ddd;
+    font-size:12px;
+    height:16px;
+    line-height:10px;
+    background:#337ab7;
+    color:#fff;
+    border: solid 1px #fff;
+}
+.schoolarea-editor .group {
+    background:#f0f0f0;
+    padding:10px;
+    margin-bottom:10px;
+}
+.schoolarea-editor .group > h2 {
+    margin: 0;padding: 0;
+    font-size:14px;
+    font-weight:bold;
+    padding-bottom:4px;
+    border-bottom:solid 1px #ddd;
+    margin-bottom:5px;
+}
+.schoolarea-editor .field-item {
+    padding:3px 0;
+}
+.schoolarea-editor .field-item > label {display:block;font-weight:200;}
+.schoolarea-editor .field-item .input-group {width:100%;}
+.schoolarea-editor .field-item .input-control {width:100%;}
+
+.schoolarea-editor .input-items .input-item {padding:2px 0;}
+
+.schoolarea-output{margin-top:10px;}
+
+.group .tb-lay, .group .grid-item {width:100%;}
+.group .tb-lay .tb-lay-opt{width:10px;vertical-align:top;padding-left:10px;}
+.group .tb-lay th, .group .tb-lay td{padding:0;}
+.group .grid-item th{width:140px;}
+.group .grid-item input{width:100%;}
+.group .grid{margin-bottom:10px;}
+</style>

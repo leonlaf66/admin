@@ -1,0 +1,107 @@
+<?php $this->beginContent('@module/page/views/layouts/base.phtml'); ?>
+    <div id="header" class="ui-bar">
+        <nav class="navbar navbar-default">
+            <div class="container-fluid">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="/">@WS</a>
+                </div>
+
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse">
+                    <ul class="nav navbar-nav">
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Customer <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="#">Online customers</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">User <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="#">User Manage</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown <?php $this->activeMenuItem('system-setting')?>">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">System <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="<?php echo $this->createUrl(['configurtion/setting/index'])?>">Configuration</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">addy.lee@gmail.com <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="#">My Account</a></li>
+                                <li role="separator" class="divider"></li>
+                                <li><a href="<?php echo $this->createUrl(['user/account/logout'])?>">Logout</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div><!-- /.navbar-collapse -->
+            </div><!-- /.container-fluid -->
+        </nav>
+    </div><!--end header-->
+
+    <div class="container-fluid" >
+    <div id="main" style="display:table;width:100%;">
+        <div style="display:table-row">
+            <div class="left-menu-bar" style="display:table-cell;width:190px;vertical-align:top;">
+                <h2 class="group">School Area</h2>
+                <ul>
+                    <li class="<?php $this->activeMenuItem('schooldistrict')?>">
+                        <a href="<?php echo $this->createUrl(['schooldistrict/schooldistrict/index'])?>">School Districtss</a>
+                    </li>
+                </ul>
+                <h2 class="group">Yellow Page</h2>
+                <ul>
+                    <li class="<?php $this->activeMenuItem('yellowpage-categories')?>">
+                        <a href="<?php echo $this->createUrl(['yellowpage/category/index'])?>">Manage Categories</a>
+                    </li>
+                    <li class="<?php $this->activeMenuItem('yellowpages')?>">
+                        <a href="<?php echo $this->createUrl(['yellowpage/yellowpage/index'])?>">Manage Yellowpages</a>
+                    </li>
+                </ul>
+                <h2 class="group">Rets</h2>
+                <ul>
+                    <li class="<?php $this->activeMenuItem('rets-view-template')?>">
+                        <a href="<?php echo $this->createUrl(['rets/view-template-editor/show'])?>">View Template</a>
+                    </li>
+                    <li class="<?php $this->activeMenuItem('rets-go-tour')?>">
+                        <a href="<?php echo $this->createUrl(['rets/go-tour/index'])?>">Go Tour</a>
+                    </li>
+                </ul>
+                <h2 class="group">News</h2>
+                <ul>
+                    <li class="<?php $this->activeMenuItem('news')?>">
+                        <a href="<?php echo $this->createUrl(['/news/default/index'])?>">Manage</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="content" style="display:table-cell;vertical-align:top;">
+                <?php foreach (Yii::$app->session->getAllFlashes() as $key => $message) { ?>
+                    <div class="alert alert-<?=$key?>" role="alert"><?=$message?></div>
+                <?php } ?>
+                
+                <?php echo $content;?>
+            </div>
+        </div>
+    </div> <!--end main-->
+    </div>
+<?php $this->endContent()?>
+
+<script>
+(function($){
+    var layoutInit = function() {
+        $('#main').height($(window).innerHeight() - $('#header').outerHeight() - 20);
+    };
+    layoutInit();
+    $(window).on('resize', function(){
+        layoutInit();
+    });
+})(jQuery);
+</script>
+<style>
+.left-menu-bar .active a{color:#f90;font-weight:bold;}
+</style>

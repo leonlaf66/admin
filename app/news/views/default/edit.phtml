@@ -1,0 +1,99 @@
+<?php
+use yii\helpers\Html;
+use yii\bootstrap\ActiveForm;
+
+?>
+
+<!--基础脚本准备-->
+<?php
+    $this->registerCssFile('/lib/editor.md/css/editormd.min.css', ['position'=>$this::POS_HEAD]);
+
+    $this->registerJsFile('/lib/editor.md/lib/codemirror/codemirror.min.js', ['position'=>$this::POS_END]);
+    $this->registerJsFile('/lib/editor.md/editormd.min.js', ['position'=>$this::POS_END]);
+?>
+
+<style type="text/css">
+.editormd{margin:0;}
+.form-group{margin-bottom:0;}
+.panel-default {margin-bottom:0;}
+#news-towns {height:auto;}
+#content-editor{
+    z-index:10;
+    min-height:400px;
+    max-height:1000px;
+}
+#content-editor .markdown-toc {display:none;}
+</style>
+
+<?php
+$form = ActiveForm::begin([
+    'id'=>'news-form',
+    'method'=>'post',
+    'layout' => 'horizontal',
+    'options' => [
+        'class'=>'form-horizontal',
+        'enctype' => 'multipart/form-data' 
+    ]
+    ]); ?>
+
+<div class="page-title">
+    <span style="color:#999;">News</span> <?php echo $news->id ? $news->title : 'New'?>
+    <div class="toolbar">
+        <?php echo Html::submitButton('<span class="glyphicon glyphicon-ok-circle"></span> Save', ['class'=>'btn btn-primary','name' =>'submit-button']) ?>   
+        <?php echo Html::resetButton('<span class="glyphicon glyphicon-repeat"></span> Reset', ['class'=>'btn','name' =>'submit-button']) ?>
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading okd">General Information</div>
+    <div class="panel-body">
+        <?php echo $form->field($news, 'type_id')->dropDownList(\common\news\News::types()) ?>
+        <?php echo $form->field($news, 'title')->textInput(['maxlength' => 100]) ?>
+        <?php // echo $form->field($news, 'image')->fileInput() ?>
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading okd">Content</div>
+    <div class="panel-body" style="padding:0">
+        <textarea id="content" name="News[content]" style="display:none;"><?php echo $news->content?></textarea>
+        <div id="content-editor">
+            <textarea id="md_content" name="News[md_content]"><?php echo $news->md_content?></textarea>
+        </div>
+    </div>
+</div>
+
+<div class="panel panel-default" style="margin-top:15px">
+    <div class="panel-heading okd">Other Information</div>
+    <div class="panel-body">
+        <?php echo $form->field($news, 'is_public')->dropDownList(['0'=>'No', '1'=>'Yes']) ?>
+        <?php echo $form->field($news, 'towns')->checkboxList(['MA'=>'马萨诸塞州'], ['multiple' => true]) ?>
+        <?php echo $form->field($news, 'is_infomation')->dropDownList(['0'=>'No', '1'=>'Yes']) ?>
+        <?php echo $form->field($news, 'status')->dropDownList(['0'=>'No Publish', '1'=>'Published']) ?>
+    </div>
+</div>
+ 
+<?php ActiveForm::end(); ?>
+
+<script type="text/javascript">
+    window.testEditor;
+
+    $(function() {
+        window.testEditor = editormd("content-editor", {
+            width   : "100%",
+            height : '500px',
+            syncScrolling : "single",
+            path    : "/lib/editor.md/lib/",
+            topC: true,
+            tocStartLevel : 2,
+            imageUpload    : false,
+            imageFormats   : ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
+            imageUploadURL : "./php/upload.php",
+            saveHTMLToTextarea: true
+        });
+    });
+
+    $('#news-form').bind('submit', function () {
+        $('#content').val(window.testEditor.getHTML());
+    });
+</script>

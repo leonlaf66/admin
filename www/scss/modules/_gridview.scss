@@ -1,0 +1,41 @@
+.grid-view {
+    font-size:12px;
+    .summary {
+        padding: 10px 0;
+    }
+    .table thead th{
+        border-bottom-width: 0;
+        padding:3px;
+        text-align:center;
+        line-height:20px;
+    }
+    .table .filters td{
+        padding:10px;
+        border-bottom-width: 0;
+        vertical-align:top;
+    }
+    .table>thead>tr>th {
+        vertical-align:middle;
+    }
+    .table>tbody td{
+        padding:3px;
+    }
+}
+
+.grid-view .table .filters {
+    .form-control {
+        border-radius: 0;
+        height: 24px;
+        line-height: 24px;
+        padding: 3px;
+        box-shadow: none;
+        border-color:#ddd;
+    }
+    .filter-item-group {
+        .item {
+            &.first {
+                margin-bottom:6px;
+            }
+        }
+    }
+}

@@ -1,0 +1,113 @@
+@mixin phone-mode($orientation: all)
+{
+  $deviceMaxWidth: 767px;
+
+  @if $orientation == all
+  {
+    @media only screen and (max-width: $deviceMaxWidth)
+    {
+      @content;
+    }
+  }
+  @else
+  {
+    @media only screen and (max-width: $deviceMaxWidth)
+    and (orientation:#{$orientation})
+    {
+      @content;
+    }
+  }
+}
+
+@mixin tablet-mode($orientation: all)
+{
+  $deviceMinWidth: 768px;
+  $deviceMaxWidth: 991px;
+
+  @if $orientation == all
+  {
+    @media only screen and (min-width: $deviceMinWidth) and (max-width: $deviceMaxWidth)
+    {
+      @content;
+    }
+  }
+  @else
+  {
+    @media only screen and (min-width: $deviceMinWidth) and (max-width: $deviceMaxWidth)
+    and (orientation:#{$orientation})
+    {
+      @content;
+    }
+  }
+}
+
+@mixin desktop-mode($orientation: all)
+{
+  $deviceMinWidth: 992px;
+
+  @if $orientation == all
+  {
+    @media only screen and (min-width: $deviceMinWidth)
+    {
+      @content;
+    }
+  }
+  @else
+  {
+    @media only screen and (min-width: $deviceMinWidth)
+    and (orientation:#{$orientation})
+    {
+      @content;
+    }
+  }
+}
+
+@mixin general-mode($orientation: all)
+{
+  $deviceMinWidth: 768px;
+
+  @if $orientation == all
+  {
+    @media only screen and (min-width: $deviceMinWidth)
+    {
+      @content;
+    }
+  }
+  @else
+  {
+    @media only screen and (min-width: $deviceMinWidth)
+    and (orientation:#{$orientation})
+    {
+      @content;
+    }
+  }
+}
+
+@mixin large-mode($orientation: all)
+{
+  $deviceMinWidth: 1173px;
+
+  @if $orientation == all
+  {
+    @media only screen and (min-width: $deviceMinWidth)
+    {
+      @content;
+    }
+  }
+  @else
+  {
+    @media only screen and (min-width: $deviceMinWidth)
+    and (orientation:#{$orientation})
+    {
+      @content;
+    }
+  }
+}
+
+@mixin icon($positionX, $positionY, $width, $height) {
+    background: url('../images/base_icons.png') no-repeat $positionX $positionY;
+    width: $width;
+    height: $height;
+    display:inline-block;
+    *zoom:1;
+}

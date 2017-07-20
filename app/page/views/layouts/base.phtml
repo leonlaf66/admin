@@ -1,0 +1,28 @@
+<?php
+use yii\helpers\Html;
+use yii\widgets\Block;
+
+module\page\assets\Base::register($this);
+$_controller = WS::$app->controller;
+?>
+<?php $this->beginPage() ?>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="<?= WS::$app->charset ?>">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/vue/1.0.26/vue.min.js"></script>
+    <?= Html::csrfMetaTags() ?>
+    <title><?= Html::encode($this->title) ?></title>
+    <?php $this->head() ?>
+    <style type="text/css">
+    	.btn{padding:1px 12px}
+    </style>
+</head>
+<body class="module-<?php echo $_controller->module->id?> <?php echo $_controller->id?>-<?php echo $_controller->action->id?>">
+<?php $this->beginBody() ?>
+    <?php echo $content;?>
+<?php $this->endBody() ?>
+</body>
+</html>
+<?php $this->endPage() ?>

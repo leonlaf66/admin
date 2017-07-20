@@ -1,0 +1,177 @@
+<div class="page-title">
+    Manage Yellowpage Categories
+</div>
+
+<input type="hidden" value="<?php echo \WS::$app->getRequest()->getCsrfToken(); ?>" name="_csrf" id="_csrf"/>
+
+<style>
+.category-container{width:100%;}
+.category-container td{vertical-align:top;}
+.category-container .category-tree{width:180px;}
+
+.ztree li span.button.add {
+  margin-left: 2px;
+  margin-right: -1px;
+  background-position: -144px 0;
+  vertical-align: top;
+}
+</style>
+
+<table class="category-container" style="width:100%">
+    <tr>
+        <td class="category-tree">
+            <ul id="category-tree" class="ztree"></ul>
+        </td>
+        <td class="category-edit">
+            
+        </td>
+    </tr>
+</table>
+
+<link type="text/css" rel="stylesheet" href="/lib/zTree_v3/css/zTreeStyle/zTreeStyle.css"/>
+<script src="/lib/zTree_v3/js/jquery.ztree.core-3.5.min.js"></script>
+<script src="/lib/zTree_v3/js/jquery.ztree.exedit-3.5.min.js"></script>
+<script src="/lib/zTree_v3/js/jquery.ztree.exhide-3.5.min.js"></script>
+
+<script>
+    var _csrf = null;
+
+    var zTreeObj;
+    // zTree 的参数配置，深入使用请参考 API 文档（setting 配置详解）
+    var setting = {
+        view: {
+            addHoverDom: addHoverDom,
+            removeHoverDom: removeHoverDom,
+            selectedMulti: false
+        },
+        data: {
+            simpleData: {
+                enable: true
+            }
+        },
+        edit: {
+            enable: true,
+            editNameSelectAll: true,
+            showRemoveBtn: false,
+            showRenameBtn: false,
+            drag: {
+                isCopy: false,
+                isMove: true,
+                prev: true,
+                inner: false,
+                next: true
+            }
+        },
+        callback: {
+            beforeDrag: beforeDrag,
+            beforeDrop: beforeDrop,
+            beforeRename: function(treeId, treeNode, newName, isCancel) {
+                if (newName.length == 0) {
+                    alert("节点名称不能为空.");
+                    setTimeout(function(){zTreeObj.editName(treeNode)}, 10);
+                    return false;
+                }
+                editMethods.onSave(treeNode, newName);
+                return true;
+            },
+            beforeCollapse: function(treeId, treeNode){
+                if(treeNode.lock) {
+                    return false;
+                }
+                return true;
+            }
+        }
+    };
+
+    function beforeDrag(treeId, treeNodes) {
+        for (var i=0,l=treeNodes.length; i<l; i++) {
+            if (treeNodes[i].drag === false) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    function beforeDrop(treeId, treeNodes, targetNode, moveType) {
+        var ret = targetNode ? targetNode.drop !== false : true;
+        if(ret) {
+            setTimeout(function(){
+                editMethods.onSorted(treeNodes[0].getParentNode());
+            }, 400);
+        }
+        return ret;
+    }
+
+
+
+    function addHoverDom(treeId, treeNode) {
+        var aObj = $('#'+treeNode.tId+'_a');
+        if(aObj.find('.actions').length > 0) return;
+
+        var editStr = '<span class="actions" style="margin-left:20px">';
+        editStr += '<span class="button node-action-btn add" id="btn_add-'+treeNode.tId+'" title="add node" style="margin-right:5px" data-type="add"></span>';
+
+        if(treeNode.id) {
+            editStr += '<span class="button node-action-btn edit" id="btn_edit-'+treeNode.tId+'" title="rename" style="margin-right:5px" data-type="rename" treenode_edit=""></span>';
+            editStr += '<span class="button node-action-btn remove" id="btn_remove-'+treeNode.tId+'" title="remove" data-type="remove" treenode_remove=""></span>';
+        }
+        editStr += '</span>';
+
+        aObj.append(editStr);
+    }
+
+    var editMethods = {
+        add: function(treeNode) {
+            zTreeObj.selectNode(treeNode);
+            var newNode = zTreeObj.addNodes(treeNode, {id:'new', pId:treeNode.id, name:''});
+            zTreeObj.selectNode(newNode[0]);
+            this.rename(newNode[0]);
+        },
+        rename: function(treeNode) {
+            zTreeObj.selectNode(treeNode);
+            zTreeObj.editName(treeNode);
+        },
+        onSave: function(treeNode, name) {
+            $.post('<?php echo $this->createUrl(['yellowpage/category/save'])?>', {pid: treeNode.pId, id: treeNode.id, name: name, _csrf: _csrf}, function(id){
+                if(treeNode.id === 'new') treeNode.id = id;
+            });
+        },
+        remove: function(treeNode) {
+            if(confirm("确认删除 节点 -- " + treeNode.name + " 吗？")) {
+                zTreeObj.selectNode(treeNode);
+                $.post('<?php echo $this->createUrl(['yellowpage/category/remove'])?>', {id: treeNode.id, _csrf: _csrf}, function(){
+                    zTreeObj.removeNode(treeNode);
+                });
+            }
+        },
+        onSorted: function(treeParentNode) {
+            var children = treeParentNode.children;
+
+            var sortedIds = [];
+            $.each(children, function(){
+                sortedIds.push(this.id);
+            });
+            $.post('<?php echo $this->createUrl(['yellowpage/category/sort'])?>', {ids: sortedIds, _csrf: _csrf});
+        }
+    };
+
+    function removeHoverDom(treeId, treeNode) {
+        $('#'+treeNode.tId+'_a').find('.actions').remove();
+    }
+
+    var zNodes = <?php echo json_encode($categoryTreeData)?>;
+    $(document).ready(function(){
+        _csrf = $('#_csrf').val();
+
+        zTreeObj = $.fn.zTree.init($("#category-tree"), setting, zNodes);
+
+        $('#category-tree').delegate('.node-action-btn', 'click', function(event) {
+            var self = $(this),
+                type = self.data('type'),
+                tid = self.parents('a').attr('id').replace('_a', ''),
+                treeNode = zTreeObj.getNodeByTId(tid);
+
+            (editMethods[type])(treeNode);
+        });
+    });
+</script>

@@ -1,0 +1,90 @@
+<?php
+use yii\helpers\Html;
+use yii\bootstrap\ActiveForm;
+?>
+
+<?php
+$form = ActiveForm::begin([
+    'method'=>'post',
+    'layout' => 'horizontal',
+    'options' => [
+        'class'=>'form-horizontal',
+        'enctype' => 'multipart/form-data' 
+    ]
+    ]); ?>
+
+<div class="page-title">
+    YelllowPage (<?php echo $yellowpage->id ? $yellowpage->name : 'New'?>)
+    <div class="toolbar">
+        <?php echo Html::submitButton('<span class="glyphicon glyphicon-ok-circle"></span> Save', ['class'=>'btn btn-primary','name' =>'submit-button']) ?>   
+        <?php echo Html::resetButton('<span class="glyphicon glyphicon-repeat"></span> Reset', ['class'=>'btn','name' =>'submit-button']) ?>
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading okd">General Information</div>
+    <div class="panel-body">
+        <?php echo $form->field($yellowpage, 'name')->textInput(['maxlength' => 100]) ?>
+        <?php echo $form->field($yellowpage, 'business')->textInput(['maxlength' => 100]) ?>
+        <?php echo $form->field($yellowpage, 'business_cn')->textInput(['maxlength' => 100]) ?>
+        <?php echo $form->field($yellowpage, 'photo')->fileInput(['options' => ['accept' => 'image/*']]) ?>
+        <?php echo $form->field($yellowpage, 'license')->textInput(['maxlength' => 100]) ?>
+        <?php echo $form->field($yellowpage, 'is_top')->radioList([0=>'No', 1=>'Yes']) ?>
+        <?php echo $form->field($yellowpage, 'website')->textInput(['maxlength' => 100]) ?>
+        <?php echo $form->field($yellowpage, 'city_ids')->dropDownList(\common\catalog\Town::map(), ['class'=>'form-control select2', 'multiple'=>'multiple']) ?>
+        <?php echo $form->field($yellowpage, 'category_ids')->dropDownList(common\yellowpage\YellowPageType::termMap(), ['class'=>'form-control select2', 'multiple'=>'multiple']) ?>
+    </div>
+</div>
+<?php $_image = $yellowpage->getPhotoImageInstance();?>
+<?php if($_image && $yellowpage->photo_hash):?>
+<script>
+(function($){
+    var imgUrl = '<?php echo $_image->resize(100,100)->getUrl()?>';
+    $('<img src="'+imgUrl+'"/>').appendTo('.field-yellowpage-photo .col-sm-6');
+})(jQuery);
+</script>
+<?php endif?>
+
+<div class="panel panel-default">
+    <div class="panel-heading okd">Contact Information</div>
+    <div class="panel-body">
+        <?php echo $form->field($yellowpage, 'contact')->textInput(['maxlength' => 100]) ?>
+        <?php echo $form->field($yellowpage, 'address')->textInput(['maxlength' => 100]) ?>
+        <?php echo $form->field($yellowpage, 'phone')->textInput(['maxlength' => 100]) ?>
+        <?php echo $form->field($yellowpage, 'email')->textInput(['maxlength' => 100]) ?>
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading okd">Description Information</div>
+    <div class="panel-body">
+        <?php echo $form->field($yellowpage, 'intro')->widget('pjkui\kindeditor\KindEditor',[
+            'clientOptions'=>[
+                'allowFileManager'=>'false',
+                'allowUpload'=>'false',
+                'items'=>[
+                    'source', '|', 'undo', 'redo', '|', 'template', 'cut', 'copy',
+                    'plainpaste', 'wordpaste', '|', 'justifyleft', 'justifycenter', 'justifyright',
+                    'justifyfull', 'insertorderedlist', 'insertunorderedlist', 'indent', 'outdent', 'subscript',
+                    'superscript', 'clearhtml', 'quickformat', 'selectall', '|', 'fullscreen', '/',
+                    'formatblock', 'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold',
+                    'italic', 'underline', 'strikethrough', 'lineheight', 'removeformat', '|', 
+                    'table', 'hr', 'emoticons', 'pagebreak',
+                    'link', 'unlink'
+                ]
+            ]
+        ]) ?>
+    </div>
+</div>
+ 
+<!--
+<div class="panel panel-default">
+    <div class="panel-heading okd">Location</div>
+    <div class="panel-body">
+        <?php echo $form->field($yellowpage, 'longitude')->textInput(['maxlength' => 20]) ?>
+        <?php echo $form->field($yellowpage, 'latitude')->textInput(['maxlength' => 20]) ?>
+    </div>
+</div>
+-->
+ 
+<?php ActiveForm::end(); ?>

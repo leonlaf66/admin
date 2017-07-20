@@ -1,0 +1,30 @@
+<?php 
+use yii\helpers\Html;
+use yii\widgets\ActiveForm;
+
+$this->title = 'Login';
+$this->params['breadcrumbs'][] = $this->title;
+
+$_inputOptions = ['inputOptions'=>['class'=>'form-control input-sm']];
+?>
+
+<div class="login-box">
+	<div class="header">
+		<label>Wesnail Admin Panel</label>
+	</div>
+	<?php $form = ActiveForm::begin(['id' => 'login-form'])?>
+		<input type="hidden" value="<?php echo \WS::$app->getRequest()->getCsrfToken(); ?>" name="_csrf" />
+		<div class="form-group">
+			<?php echo $form->field($model, 'username', $_inputOptions) ?>
+		</div>
+		<div class="form-group">
+			<?php echo $form->field($model, 'password', $_inputOptions)->passwordInput() ?>
+		</div>
+		
+		<div class="container-fluid">
+			<div class="row">
+				<button type="submit" class="btn btn-primary col-md-12">Login</button>
+			</div>
+		</div>
+	<?php ActiveForm::end()?>
+</div>
