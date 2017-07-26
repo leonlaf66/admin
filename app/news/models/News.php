@@ -21,7 +21,8 @@ class News extends \common\news\News
     {
         return [
             'type_id'=>'Type',
-            'status' => 'Status'
+            'status' => 'Status',
+            'is_infomation' => 'Is Information'
         ];
     }
 
