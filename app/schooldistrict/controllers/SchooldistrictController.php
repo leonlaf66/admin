@@ -8,6 +8,8 @@ class SchooldistrictController extends \module\core\component\Controller
 {
     public function actionIndex()
     {
+        $this->view->setActiveMenuId('schooldistrict');
+
         $codes = SchoolDistrict::xFind()->select('code')->column();
 
         return $this->render('index.phtml', ['codes'=>$codes]);

@@ -44,41 +44,53 @@
         </nav>
     </div><!--end header-->
 
+    <style type="text/css">
+    .left-menu-bar h2.group {
+        font-size: 13px;
+        background: #f0f0f0;
+        padding: 3px 8px;
+        margin-right: 15px;
+        margin-bottom: 4px;
+        border-radius: 0 0 10px 4px;
+        color: #888;
+    }
+    </style>
+
     <div class="container-fluid" >
     <div id="main" style="display:table;width:100%;">
         <div style="display:table-row">
             <div class="left-menu-bar" style="display:table-cell;width:190px;vertical-align:top;">
-                <h2 class="group">School Area</h2>
+                <h2 class="group">HOUSE</h2>
                 <ul>
-                    <li class="<?php $this->activeMenuItem('schooldistrict')?>">
-                        <a href="<?php echo $this->createUrl(['schooldistrict/schooldistrict/index'])?>">School Districtss</a>
-                    </li>
-                </ul>
-                <h2 class="group">Yellow Page</h2>
-                <ul>
-                    <li class="<?php $this->activeMenuItem('categories-2')?>">
-                        <a href="<?php echo $this->createUrl(['/category/default/index', 'taxonomyId'=>2])?>">Categories</a>
-                    </li>
-                    <li class="<?php $this->activeMenuItem('yellowpages')?>">
-                        <a href="<?php echo $this->createUrl(['yellowpage/yellowpage/index'])?>">Yellowpages</a>
-                    </li>
-                </ul>
-                <h2 class="group">Rets</h2>
-                <ul>
-                    <li class="<?php $this->activeMenuItem('rets-view-template')?>">
-                        <a href="<?php echo $this->createUrl(['rets/view-template-editor/show'])?>">View Template</a>
-                    </li>
                     <li class="<?php $this->activeMenuItem('rets-go-tour')?>">
                         <a href="<?php echo $this->createUrl(['rets/go-tour/index'])?>">Go Tour</a>
                     </li>
+                    <li class="<?php $this->activeMenuItem('rets-view-template')?>">
+                        <a href="<?php echo $this->createUrl(['rets/view-template-editor/show'])?>">View Template</a>
+                    </li>
                 </ul>
-                <h2 class="group">News</h2>
+                <h2 class="group">NEWS</h2>
                 <ul>
+                    <li class="<?php $this->activeMenuItem('news')?>">
+                        <a href="<?php echo $this->createUrl(['/news/default/index'])?>">News List</a>
+                    </li>
                     <li class="<?php $this->activeMenuItem('categories-3')?>">
                         <a href="<?php echo $this->createUrl(['/category/default/index', 'taxonomyId'=>3])?>">Categories</a>
                     </li>
-                    <li class="<?php $this->activeMenuItem('news')?>">
-                        <a href="<?php echo $this->createUrl(['/news/default/index'])?>">News List</a>
+                </ul>
+                <h2 class="group">YELLOWPAGE</h2>
+                <ul>
+                    <li class="<?php $this->activeMenuItem('yellowpages')?>">
+                        <a href="<?php echo $this->createUrl(['yellowpage/yellowpage/index'])?>">Yellowpages</a>
+                    </li>
+                    <li class="<?php $this->activeMenuItem('categories-2')?>">
+                        <a href="<?php echo $this->createUrl(['/category/default/index', 'taxonomyId'=>2])?>">Categories</a>
+                    </li>
+                </ul>
+                <h2 class="group">SCHOOL DISTRICT</h2>
+                <ul>
+                    <li class="<?php $this->activeMenuItem('schooldistrict')?>">
+                        <a href="<?php echo $this->createUrl(['schooldistrict/schooldistrict/index'])?>">School Districtss</a>
                     </li>
                 </ul>
             </div>
