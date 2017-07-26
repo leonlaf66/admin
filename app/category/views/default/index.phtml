@@ -1,5 +1,5 @@
 <div class="page-title">
-    Manage Yellowpage Categories
+    Manage <?php echo $typeName?>
 </div>
 
 <input type="hidden" value="<?php echo \WS::$app->getRequest()->getCsrfToken(); ?>" name="_csrf" id="_csrf"/>
@@ -67,7 +67,7 @@
             beforeDrop: beforeDrop,
             beforeRename: function(treeId, treeNode, newName, isCancel) {
                 if (newName.length == 0) {
-                    alert("节点名称不能为空.");
+                    //alert("节点名称不能为空.");
                     setTimeout(function(){zTreeObj.editName(treeNode)}, 10);
                     return false;
                 }
@@ -132,14 +132,14 @@
             zTreeObj.editName(treeNode);
         },
         onSave: function(treeNode, name) {
-            $.post('<?php echo $this->createUrl(['yellowpage/category/save'])?>', {pid: treeNode.pId, id: treeNode.id, name: name, _csrf: _csrf}, function(id){
+            $.post('<?php echo $this->createUrl(['category/default/save', 'taxonomyId'=>$taxonomyId])?>', {pid: treeNode.pId, id: treeNode.id, name: name, _csrf: _csrf}, function(id){
                 if(treeNode.id === 'new') treeNode.id = id;
             });
         },
         remove: function(treeNode) {
             if(confirm("确认删除 节点 -- " + treeNode.name + " 吗？")) {
                 zTreeObj.selectNode(treeNode);
-                $.post('<?php echo $this->createUrl(['yellowpage/category/remove'])?>', {id: treeNode.id, _csrf: _csrf}, function(){
+                $.post('<?php echo $this->createUrl(['category/default/remove'])?>', {id: treeNode.id, _csrf: _csrf}, function(){
                     zTreeObj.removeNode(treeNode);
                 });
             }
@@ -151,7 +151,7 @@
             $.each(children, function(){
                 sortedIds.push(this.id);
             });
-            $.post('<?php echo $this->createUrl(['yellowpage/category/sort'])?>', {ids: sortedIds, _csrf: _csrf});
+            $.post('<?php echo $this->createUrl(['category/default/sort'])?>', {ids: sortedIds, _csrf: _csrf});
         }
     };
 

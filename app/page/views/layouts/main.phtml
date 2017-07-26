@@ -48,6 +48,12 @@
     <div id="main" style="display:table;width:100%;">
         <div style="display:table-row">
             <div class="left-menu-bar" style="display:table-cell;width:190px;vertical-align:top;">
+                <h2 class="group">General</h2>
+                <ul>
+                    <li class="<?php $this->activeMenuItem('categories')?>">
+                        <a href="<?php echo $this->createUrl(['category/default/index'])?>">Categories</a>
+                    </li>
+                </ul>
                 <h2 class="group">School Area</h2>
                 <ul>
                     <li class="<?php $this->activeMenuItem('schooldistrict')?>">
@@ -56,11 +62,11 @@
                 </ul>
                 <h2 class="group">Yellow Page</h2>
                 <ul>
-                    <li class="<?php $this->activeMenuItem('yellowpage-categories')?>">
-                        <a href="<?php echo $this->createUrl(['yellowpage/category/index'])?>">Manage Categories</a>
+                    <li class="<?php $this->activeMenuItem('categories-2')?>">
+                        <a href="<?php echo $this->createUrl(['/category/default/index', 'taxonomyId'=>2])?>">Categories</a>
                     </li>
                     <li class="<?php $this->activeMenuItem('yellowpages')?>">
-                        <a href="<?php echo $this->createUrl(['yellowpage/yellowpage/index'])?>">Manage Yellowpages</a>
+                        <a href="<?php echo $this->createUrl(['yellowpage/yellowpage/index'])?>">Yellowpages</a>
                     </li>
                 </ul>
                 <h2 class="group">Rets</h2>
@@ -74,8 +80,11 @@
                 </ul>
                 <h2 class="group">News</h2>
                 <ul>
+                    <li class="<?php $this->activeMenuItem('categories-3')?>">
+                        <a href="<?php echo $this->createUrl(['/category/default/index', 'taxonomyId'=>3])?>">Categories</a>
+                    </li>
                     <li class="<?php $this->activeMenuItem('news')?>">
-                        <a href="<?php echo $this->createUrl(['/news/default/index'])?>">Manage</a>
+                        <a href="<?php echo $this->createUrl(['/news/default/index'])?>">News List</a>
                     </li>
                 </ul>
             </div>

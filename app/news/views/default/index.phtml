@@ -17,7 +17,7 @@ use \module\core\component\GridRangeFilter;
 </div>
 
 <?php
-$typeNames = \common\news\News::types();
+$typeNames = \common\core\TaxonomyTerm::typeOptions(3);
 $gridColumns = [
     [
         'attribute'=>'id',
@@ -36,7 +36,10 @@ $gridColumns = [
     [
         'attribute'=>'type_id',
         'value'=>function($m) use($typeNames){
-            return $typeNames[$m->type_id];
+            if (isset($typeNames[$m->type_id])) {
+                return $typeNames[$m->type_id];
+            }
+            return 'Unknown';
         },
         'options'=>[
             'width'=>'120px'
@@ -61,7 +64,7 @@ $gridColumns = [
         ],
         'filter'=>['0'=>'No Publish', '1'=>'Published'],
         'value'=>function($m){
-            return $m->status == '0' ? 'No Publish' : 'Published';
+            return $m->status ? 'Published' : 'No Publish';
         },
         'contentOptions'=>[
             'class'=>'text-center'

@@ -10,7 +10,7 @@ class DefaultController extends \module\core\component\Controller
 {
     public function actionIndex()
     {
-        $this->view->setActiveMenuId('yellowpages');
+        $this->view->setActiveMenuId('news');
 
         $searchModel = new NewsSearch();
         $searchModel->setAttributes(\Yii::$app->request->get('NewsSearch'));

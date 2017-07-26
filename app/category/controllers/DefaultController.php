@@ -1,31 +1,35 @@
 <?php
-namespace module\yellowpage\controllers;
-
-use \module\core\model\TaxonomyTerm;
+namespace module\category\controllers;
 
 use WS;
+use \module\core\model\TaxonomyTerm;
 
-class CategoryController extends \module\core\component\Controller
+class DefaultController extends \module\core\component\Controller
 {
-    CONST YELLOWPAGE_TAXONOMY_ID=2;
-
-    public function actionIndex()
+    public function actionIndex($taxonomyId)
     {
-        $this->view->setActiveMenuId('yellowpage-categories');
+        $this->view->setActiveMenuId('categories-'.$taxonomyId);
 
-        $categoryTreeData = TaxonomyTerm::getTreeNav(2);
+        $taxonomy = WS::$app->db->createCommand('select * from catalog_taxonomy where id=:id', [':id' => $taxonomyId])
+            ->queryOne();
+
+        $categoryTreeData = TaxonomyTerm::getTreeNav($taxonomyId);
         array_push($categoryTreeData, [
             'id'=>0,
-            'name'=>'Yellowpage Categories',
+            'name'=>$taxonomy['description'],
             'pId'=>0,
             'open'=>true,
             'lock'=>true
         ]);
         
-        return $this->render('index.phtml', ['categoryTreeData'=>$categoryTreeData]);
+        return $this->render('index.phtml', [
+            'taxonomyId' => $taxonomyId,
+            'typeName' => $taxonomy['description'],
+            'categoryTreeData'=>$categoryTreeData
+        ]);
     }
 
-    public function actionSave() 
+    public function actionSave($taxonomyId) 
     {
         if(WS::$app->request->isPost) {
             $pid = WS::$app->request->post('pid');
@@ -38,8 +42,9 @@ class CategoryController extends \module\core\component\Controller
             }
             if(is_null($term)) {
                 $term = new TaxonomyTerm();
-                $term->taxonomy_id = self::YELLOWPAGE_TAXONOMY_ID;
+                $term->taxonomy_id = $taxonomyId;
                 $term->parent_id = $pid;
+                $term->status = 0;
                 $term->sort_order = TaxonomyTerm::getNewWeightValue($pid);
             }
             $term->name = $name;

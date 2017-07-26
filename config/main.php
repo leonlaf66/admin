@@ -46,8 +46,10 @@ return \yii\helpers\ArrayHelper::merge(get_fdn_etc(), [
     'modules'=>[
         'core'=>'module\core\Module',
         'user'=>'module\user\Module',
+        'cms'=>'module\cms\Module',
         'page'=>'module\page\Module',
         'dashboard'=>'module\dashboard\Module',
+        'category'=>'module\category\Module',
         'yellowpage'=>'module\yellowpage\Module',
         'configurtion'=>'module\configurtion\Module',
         'report'=>'module\report\Module',
