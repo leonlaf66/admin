@@ -48,6 +48,9 @@ class DefaultController extends \module\core\component\Controller
                 $term->sort_order = TaxonomyTerm::getNewWeightValue($pid);
             }
             $term->name = $name;
+            if (!$term->name_cn) {
+                $term->name_cn = $name;
+            }
             $term->save();
 
             return $term->id;
