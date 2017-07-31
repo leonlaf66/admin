@@ -1,6 +1,7 @@
 <?php
 class App extends \yii\web\Application
 {
+    public $domain = '';
     public $baseUrl = '/';
     public $stateCode = 'MA';
     public $translationStatus = false;
