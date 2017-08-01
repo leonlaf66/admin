@@ -26,7 +26,7 @@
             <div class="field-item">
                 <label>Name</label>
                 <div class="input-group">
-                    <input type="text" v-model="result.name[0]" class="input-control" placeholder="English">
+                    <input type="text" v-model="result.name[0]" class="input-control" placeholder="Default">
                     <input type="text" v-model="result.name[1]" class="input-control" placeholder="中文">
                 </div>
             </div>
@@ -88,12 +88,12 @@
             <div class="field-item">
                 <label>Content</label>
                 <div class="input-group">
-                    <input type="text" v-model="result.description[0]" class="input-control" placeholder="English">
+                    <input type="text" v-model="result.description[0]" class="input-control" placeholder="Default">
                     <input type="text" v-model="result.description[1]" class="input-control" placeholder="中文">
                 </div>
                 <label>Advantage</label>
                 <div class="input-items">
-                    <input type="text" v-model="result.advantage[0]" class="input-control" placeholder="English">
+                    <input type="text" v-model="result.advantage[0]" class="input-control" placeholder="Default">
                     <input type="text" v-model="result.advantage[1]" class="input-control" placeholder="中文">
                 </div>
             </div>
@@ -171,8 +171,8 @@
                         <td>
                             <table class="grid-item">
                                 <tr>
-                                    <th><input type="text" placeholder="English title" v-model="item.name"></th>
-                                    <td><input type="text" placeholder="English content" v-model="item.description"></td>
+                                    <th><input type="text" placeholder="Default title" v-model="item.name"></th>
+                                    <td><input type="text" placeholder="Default content" v-model="item.description"></td>
                                 </tr>
                                 <tr>
                                     <th><input type="text" placeholder="中文标题" v-model="item.name_cn"></th>
@@ -197,8 +197,8 @@
                         <td>
                             <table class="grid-item">
                                 <tr>
-                                    <th><input type="text" placeholder="English title" v-model="item.name"></th>
-                                    <td><input type="text" placeholder="English content" v-model="item.description"></td>
+                                    <th><input type="text" placeholder="Default title" v-model="item.name"></th>
+                                    <td><input type="text" placeholder="Default content" v-model="item.description"></td>
                                 </tr>
                                 <tr>
                                     <th><input type="text" placeholder="中文标题" v-model="item.name_cn"></th>
