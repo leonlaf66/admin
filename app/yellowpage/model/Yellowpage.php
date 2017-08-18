@@ -98,7 +98,7 @@ class Yellowpage extends \common\yellowpage\YellowPage
             ->queryColumn();
     }
 
-    public static function search($searchModel)
+    public static function search($searchModel = null)
     {
         $likeCols = ['name'];
 
