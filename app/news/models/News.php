@@ -27,7 +27,7 @@ class News extends \common\news\News
         ];
     }
 
-    public static function search($newsSearch)
+    public static function search($newsSearch = null)
     {
         $query = self::find();
 
