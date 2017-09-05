@@ -8,12 +8,12 @@ class News extends \common\news\News
     public function rules()
     {
         return [
-            [['type_id', 'title', 'content', 'status'], 'required'],
+            [['type_id', 'title', 'content'], 'required'],
             [['title'], 'string', 'max'=>100],
             [['content', 'md_content'], 'string', 'min'=>10],
             [['is_public', 'is_infomation', 'is_hot'], 'boolean', 'trueValue'=>'1', 'falseValue'=>'0'],
             // [['image'], 'file'],
-            [['towns'], 'safe']
+            [['status', 'towns', 'updated_at'], 'safe']
         ];
     }
 
