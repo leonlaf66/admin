@@ -64,9 +64,9 @@ $gridColumns = [
         ],
         'filter'=>['0'=>'No Publish', '1'=>'Published'],
         'value'=>function($m){
-            if ($m->status === 0) {
+            if ($m->status == 0) {
                 return 'No Publish';
-            } elseif ($m->status === 1)
+            } elseif ($m->status == 1)
                 return 'Published';
             elseif ($m->status === 2)
                 return 'Waiting';
