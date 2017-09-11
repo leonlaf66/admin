@@ -5,23 +5,22 @@ use WS;
 
 class ViewTemplateEditorController extends \module\core\component\Controller
 {
-    public function actionShow()
+    public function actionShow($type = 'rn')
     {
         $this->view->setActiveMenuId('rets-view-template');
 
-        $currentType = WS::$app->request->get('type', 'rn');
-
-        $model = \module\rets\models\ViewTemplateEditorForm::findOne($currentType);
+        $model = \module\rets\models\ViewTemplateEditorForm::findOne($type);
 
         if(WS::$app->request->isPost) {
             $model->load(WS::$app->request->post());
+            $model->type_id = $type;
             if($model->validate()) {
                 $model->save();
             }
         }
         
         return $this->render('show.phtml', [
-            'currentType'=>$currentType,
+            'currentType'=>$type,
             'model'=>$model
         ]);
     }
