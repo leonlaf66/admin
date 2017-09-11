@@ -11,8 +11,10 @@ ul.types > li > a{display:block;padding:3px 20px;background:#ececec;}
 ul.types > li.active > a{background:#f90;color:#fff;}
 
 .field-viewtemplateeditorform-content > label{display:none;}
-.field-viewtemplateeditorform-content .col-sm-6{width:100%;}
+.field-viewtemplateeditorform-content .col-sm-6{width:0%;}
 .field-viewtemplateeditorform-content .help-block{background:#f7f7f7;padding:5px;margin:0;border-top:#eee solid 1px;}
+.control-label.col-sm-3{display:none;}
+.col-sm-6{width:100% !important;}
 </style>
 
 <?php
@@ -60,7 +62,7 @@ $form = ActiveForm::begin([
       var wrap = cm.getWrapperElement(), scroll = cm.getScrollerElement();
       if (full) {
         wrap.className += " CodeMirror-fullscreen";
-        scroll.style.height = winHeight() + "px";
+        scroll.style.height = (winHeight() - 180) + "px";
         document.documentElement.style.overflow = "hidden";
       } else {
         wrap.className = wrap.className.replace(" CodeMirror-fullscreen", "");
@@ -80,6 +82,8 @@ $form = ActiveForm::begin([
     mode: {name: "xml", alignCDATA: true},
     lineNumbers: true,
     htmlMode: false,
+    indentWithTabs: true,
+    autofocus: true,
     implicitlyClosed:{'rn':true, 'sf':true, 'mf':true, 'cc':true, 'ci':true, 'bu':true, 'ld':true,'group':true,'fields':true},
     contextGrabbers:{'title':true,'prefix':true,'suffix':true},
     extraKeys: {
@@ -89,12 +93,14 @@ $form = ActiveForm::begin([
           setFullScreen(cm, !isFullScreen(cm));
         },
         "Esc": function(cm) {
-          if (isFullScreen(cm)) setFullScreen(cm, false);
+          setFullScreen(cm, !isFullScreen(cm));
+          //if (isFullScreen(cm)) setFullScreen(cm, false);
         }
     },
     wordWrap: true,
     lineWrapping: true,
     onGutterClick: CodeMirror.newFoldFunction(CodeMirror.braceRangeFinder)
   });
+  setFullScreen(editor, true);
 </script>
 
