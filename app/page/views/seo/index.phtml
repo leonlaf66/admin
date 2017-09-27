@@ -1,0 +1,68 @@
+<template id="seo-editor">
+    <div class="page-title">
+        SEO for PC Editor
+        <div class="toolbar">
+            <button id="btn-submit" type="submit" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-ok-circle"></span> Save</button>
+        </div>
+    </div>
+
+    <div class="seo-editor-box">
+      <div class="seo-page" v-for="(routeId, item) in items">
+        <h2>{{ item.name }}<span style="margin-left:10px;font-weight:200;font-size:12px;">{{ item.variables }}</span></h2>
+        <div class="field-item field-title">
+          <label class="label-control">Title</label>
+          <div class="input-container">
+            <input v-model="item.title[0]" class="input-control" placeholder="Default">
+            <input v-model="item.title[1]" class="input-control" placeholder="Chinese">
+          </div>
+        </div>
+        <div class="field-item field-keywords">
+          <label class="label-control">Keywords</label>
+          <div class="input-container">
+            <input v-model="item.keywords[0]" class="input-control" placeholder="Default">
+            <input v-model="item.keywords[1]" class="input-control" placeholder="Chinese">
+          </div>
+        </div>
+        <div class="field-item field-description">
+          <label class="label-control">Description</label>
+          <div class="input-container">
+            <input v-model="item.description[0]" class="input-control" placeholder="Default">
+            <input v-model="item.description[1]" class="input-control" placeholder="Chinese">
+          </div>
+        </div>
+      </div>
+    </div>
+</template>
+
+<script>
+var vue = new Vue({
+    el: '#seo-editor',
+    data: {
+        items: <?php echo json_encode($data)?>
+    },
+    methods: {
+    }
+});
+
+$('#btn-submit').click(function(){
+    var csrf = '<?php echo \WS::$app->getRequest()->getCsrfToken()?>';
+    $.post('/index.php?r=page/seo/save', {data: vue.$data.items, _csrf: csrf}, function (res) {
+      window.location.reload();
+    });
+});
+</script>
+
+<style type="text/css">
+.seo-editor-box{font-size:12px;}
+.seo-editor-box .seo-page{border-bottom:15px;}
+
+.seo-page {background:#f5f5f5;border-radius:4px;padding:15px;margin-bottom:15px;}
+.seo-page > h2{margin:0;padding:0;padding-bottom:15px;font-size:16px;color:#333;}
+
+.field-item {position:relative;height:60px;margin-top:10px;}
+.field-item .label-control {display:inline-block;width: 75px;text-align:right;;font-weight:200;color:#777;}
+.field-item .input-container{position:absolute;left:90px;top:0;right:0;}
+
+.field-item .label-control:after {content:':';}
+.field-item .input-control {width:100%;margin-bottom:5px;}
+</style>

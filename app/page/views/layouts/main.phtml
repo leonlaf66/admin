@@ -93,6 +93,12 @@
                         <a href="<?php echo $this->createUrl(['schooldistrict/schooldistrict/index'])?>">School Districtss</a>
                     </li>
                 </ul>
+                <h2 class="group">SEO (for PC)</h2>
+                <ul>
+                    <li class="<?php $this->activeMenuItem('seo')?>">
+                        <a href="<?php echo $this->createUrl(['page/seo/index'])?>">Page Settings</a>
+                    </li>
+                </ul>
             </div>
             <div class="content" style="display:table-cell;vertical-align:top;">
                 <?php foreach (Yii::$app->session->getAllFlashes() as $key => $message) { ?>
