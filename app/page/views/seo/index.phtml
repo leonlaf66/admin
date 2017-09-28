@@ -22,7 +22,9 @@
     border: solid 1px #fff;
 }
 
-.seo-meta-page {margin-top:20px;}
+.seo-variables {padding:15px 0;}
+
+.seo-meta-page {margin-top:5px;}
 .seo-meta-page .field-item{margin-bottom:15px;border-radius:4px;padding:15px;background:#f2f2f2;}
 .seo-meta-page .field-item .label-control{display:block;margin-bottom:15px;text-transform:uppercase;;color:#333;}
 .seo-meta-page .field-item .label-control:after{content:':';}
@@ -48,6 +50,9 @@
 
 <?php if ($currentPath):?>
     <template id="seo-editor">
+        <div class="seo-variables">
+            <span style="color:#777">Variables:</span> <?php echo $configs[$currentPath]['variables']?>
+        </div>
         <div class="seo-meta-page">
             <div class="field-item field-title">
               <label class="label-control">Title</label>
