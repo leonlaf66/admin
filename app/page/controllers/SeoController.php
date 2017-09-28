@@ -5,29 +5,31 @@ use WS;
 
 class SeoController extends \module\core\component\Controller
 {
-    public function actionIndex()
+    public function actionIndex($path = null)
     {
-        $this->view->setActiveMenuId('seo');
+        if ($path && WS::$app->request->isPost) {
+            $data = WS::$app->request->post('data');
 
-        $data = include(APP_ROOT.'/../houses/config/metas.php');
+            $seoMeta = \common\cms\models\SiteSeoMeta::findOne($path);
+            if (!$seoMeta) {
+                $seoMeta = new \common\cms\models\SiteSeoMeta();
+                $seoMeta->path = $path;
+            }
+            $seoMeta->setAttributes($data, false);
+            $seoMeta->save();
+
+            echo json_encode($seoMeta->getErrors());
+
+            exit;
+        }
+
         $configs = include(APP_ROOT.'/../houses/config/metas.configs.php');
+        $entity = \common\cms\models\SiteSeoMeta::findOneAsArray($path);
 
         return $this->render('index.phtml', [
-          'data' => \yii\helpers\ArrayHelper::merge($configs, $data)
+            'currentPath' => $path,
+            'configs' => $configs,
+            'entity' => $entity
         ]);
-    }
-
-    public function actionSave()
-    {
-      $items = WS::$app->request->post('data');
-      if (! $items) $items = [];
-
-      foreach ($items as $routeId => $item) {
-        unset($items[$routeId]['name']);
-        unset($items[$routeId]['variables']);
-      }
-
-      $php = "<?php\nreturn ".var_export($items, true).';?>';
-      file_put_contents(APP_ROOT.'/../houses/config/metas.php', $php);
     }
 }
