@@ -32,7 +32,7 @@ return \yii\helpers\ArrayHelper::merge(get_fdn_etc(), [
                 'bootstrap.css'=>'http://cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css',
                 'ws-admin.css'=>'/css/styles.css',
                 /*js*/
-                'jquery.js'=>'http://cdn.bootcss.com/jquery/2.1.4/jquery.min.js',
+                'jquery.js'=>'http://cdn.bootcss.com/jquery/2.2.0/jquery.min.js',
                 'bootstrap.js'=>'http://cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js',
                 'app.js'=>'/js/app.js'
             ]
