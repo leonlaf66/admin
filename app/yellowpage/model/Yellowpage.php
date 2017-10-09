@@ -43,7 +43,7 @@ class Yellowpage extends \common\yellowpage\YellowPage
         foreach($originTypeIds as $originTypeId) {
             if(! in_array($originTypeId, $this->category_ids)) {
                 \WS::$app->db->createCommand()
-                    ->delete('catalog_yellow_page_types', 'yellow_page_id=:ypid and type_id=:tid', [
+                    ->delete('yellow_page_type', 'yellow_page_id=:ypid and type_id=:tid', [
                             ':ypid'=>$this->id,
                             ':tid'=>$originTypeId
                         ])
@@ -65,7 +65,7 @@ class Yellowpage extends \common\yellowpage\YellowPage
         foreach($originCityIds as $originCityId) {
             if(! in_array($originCityId, $this->city_ids)) {
                 \WS::$app->db->createCommand()
-                    ->delete('catalog_yellow_page_cities', 'yellowpage_id=:ypid and city_id=:cid', [
+                    ->delete('yellow_page_city', 'yellowpage_id=:ypid and city_id=:cid', [
                             ':ypid'=>$this->id,
                             ':cid'=>$originCityId
                         ])
@@ -75,7 +75,7 @@ class Yellowpage extends \common\yellowpage\YellowPage
 
         foreach($this->city_ids as $cid) {
             if(! in_array($cid, $originCityIds)) {
-                \WS::$app->db->createCommand()->insert('catalog_yellow_page_cities', [
+                \WS::$app->db->createCommand()->insert('yellow_page_city', [
                     'yellowpage_id'=>$this->id,
                     'city_id'=>$cid
                 ])->execute();
@@ -87,14 +87,14 @@ class Yellowpage extends \common\yellowpage\YellowPage
     public function getCityIds()
     {
         return \WS::$app->db
-            ->createCommand('select city_id from catalog_yellow_page_cities where yellowpage_id='.intval($this->id))
+            ->createCommand('select city_id from yellow_page_city where yellowpage_id='.intval($this->id))
             ->queryColumn();
     }
 
     public function getCategoryIds()
     {
         return \WS::$app->db
-            ->createCommand('select type_id from catalog_yellow_page_types where yellow_page_id='.intval($this->id))
+            ->createCommand('select type_id from yellow_page_type where yellow_page_id='.intval($this->id))
             ->queryColumn();
     }
 

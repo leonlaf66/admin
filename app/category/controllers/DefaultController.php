@@ -10,7 +10,7 @@ class DefaultController extends \module\core\component\Controller
     {
         $this->view->setActiveMenuId('categories-'.$taxonomyId);
 
-        $taxonomy = WS::$app->db->createCommand('select * from catalog_taxonomy where id=:id', [':id' => $taxonomyId])
+        $taxonomy = WS::$app->db->createCommand('select * from taxonomy where id=:id', [':id' => $taxonomyId])
             ->queryOne();
 
         $categoryTreeData = TaxonomyTerm::getTreeNav($taxonomyId);

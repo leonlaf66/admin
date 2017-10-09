@@ -16,7 +16,7 @@ class YellowpageController extends \module\core\component\Controller
             $value = intval($req->get('value', 0));
 
             $result = WS::$app->db->createCommand()
-                ->update('catalog_yellow_page', ['weight'=>$value], 'id='.intval($id))
+                ->update('yellow_page', ['weight'=>$value], 'id='.intval($id))
                 ->execute();
             echo json_encode($result);
             WS::$app->end();
@@ -71,10 +71,10 @@ class YellowpageController extends \module\core\component\Controller
         $db = \WS::$app->db;
 
         if($yellowpage = Yellowpage::findOne($id)) {
-            $db->createCommand()->delete('catalog_yellow_page_cities', 'yellowpage_id='.$id)->execute();
-            $db->createCommand()->delete('catalog_yellow_page_photos', 'yellow_page_id='.$id)->execute();
-            $db->createCommand()->delete('catalog_yellow_page_tags', 'yellow_page_id='.$id)->execute();
-            $db->createCommand()->delete('catalog_yellow_page_types', 'yellow_page_id='.$id)->execute();
+            $db->createCommand()->delete('yellow_page_city', 'yellowpage_id='.$id)->execute();
+            $db->createCommand()->delete('yellow_page_photo', 'yellow_page_id='.$id)->execute();
+            $db->createCommand()->delete('yellow_page_tag', 'yellow_page_id='.$id)->execute();
+            $db->createCommand()->delete('yellow_page_type', 'yellow_page_id='.$id)->execute();
 
             $yellowpage->delete();
         }
