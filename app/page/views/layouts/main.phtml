@@ -99,6 +99,12 @@
                         <a href="<?php echo $this->createUrl(['page/seo/index'])?>">Page Settings</a>
                     </li>
                 </ul>
+                <h2 class="group">Configurtions</h2>
+                <ul>
+                    <li class="<?php $this->activeMenuItem('seo')?>">
+                        <a href="<?php echo $this->createUrl(['configurtion/setting/index'])?>"> Settings</a>
+                    </li>
+                </ul>
             </div>
             <div class="content" style="display:table-cell;vertical-align:top;">
                 <?php foreach (Yii::$app->session->getAllFlashes() as $key => $message) { ?>

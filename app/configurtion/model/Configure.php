@@ -3,7 +3,7 @@ namespace module\configurtion\model;
 
 use WS;
 
-class Configure extends \common\core\Configure
+class Configure extends \models\SiteSetting
 {
     public function attributeLabels()
     {

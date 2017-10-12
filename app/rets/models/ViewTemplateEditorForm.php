@@ -3,7 +3,7 @@ namespace module\rets\models;
 
 use WS;
 
-class ViewTemplateEditorForm extends \common\estate\dict\MapDetail
+class ViewTemplateEditorForm extends \models\HouseFieldPropRule
 {
     public function rules()
     {
