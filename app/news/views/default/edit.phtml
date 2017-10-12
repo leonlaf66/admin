@@ -47,7 +47,7 @@ $form = ActiveForm::begin([
 <div class="panel panel-default">
     <div class="panel-heading okd">General Information</div>
     <div class="panel-body">
-        <?php echo $form->field($news, 'type_id')->dropDownList(\common\core\TaxonomyTerm::typeOptions(3)) ?>
+        <?php echo $form->field($news, 'type_id')->dropDownList(\models\TaxonomyTerm::typeOptions(3)) ?>
         <?php echo $form->field($news, 'title')->textInput(['maxlength' => 100]) ?>
         <?php // echo $form->field($news, 'image')->fileInput() ?>
     </div>

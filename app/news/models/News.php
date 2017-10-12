@@ -1,7 +1,7 @@
 <?php
 namespace module\news\models;
 
-class News extends \common\news\News
+class News extends \models\News
 {
     public $image;
 

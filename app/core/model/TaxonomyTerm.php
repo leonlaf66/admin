@@ -3,7 +3,7 @@ namespace module\core\model;
 
 use WS;
 
-class TaxonomyTerm extends \common\core\TaxonomyTerm
+class TaxonomyTerm extends \models\TaxonomyTerm
 {
     public static function getTreeNav($rootId)
     {
