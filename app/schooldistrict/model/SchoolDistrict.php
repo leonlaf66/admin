@@ -3,7 +3,7 @@ namespace module\schooldistrict\model;
 
 use common\helper\ArrayHelper;
 
-class SchoolDistrict extends \common\catalog\SchoolDistrict
+class SchoolDistrict extends \models\SchoolDistrict
 {
     public function setupJsonData($json)
     {

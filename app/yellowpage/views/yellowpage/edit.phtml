@@ -31,8 +31,8 @@ $form = ActiveForm::begin([
         <?php echo $form->field($yellowpage, 'license')->textInput(['maxlength' => 100]) ?>
         <?php echo $form->field($yellowpage, 'is_top')->radioList([0=>'No', 1=>'Yes']) ?>
         <?php echo $form->field($yellowpage, 'website')->textInput(['maxlength' => 100]) ?>
-        <?php echo $form->field($yellowpage, 'city_ids')->dropDownList(\common\catalog\Town::mapOptions(), ['class'=>'form-control select2', 'multiple'=>'multiple']) ?>
-        <?php echo $form->field($yellowpage, 'category_ids')->dropDownList(common\yellowpage\YellowPageType::termMap(), ['class'=>'form-control select2', 'multiple'=>'multiple']) ?>
+        <?php echo $form->field($yellowpage, 'city_ids')->dropDownList(\models\Town::mapOptions(), ['class'=>'form-control select2', 'multiple'=>'multiple']) ?>
+        <?php echo $form->field($yellowpage, 'category_ids')->dropDownList(\models\YellowPageType::termMap(), ['class'=>'form-control select2', 'multiple'=>'multiple']) ?>
     </div>
 </div>
 <?php $_image = $yellowpage->getPhotoImageInstance();?>

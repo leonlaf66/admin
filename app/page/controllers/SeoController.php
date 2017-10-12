@@ -10,9 +10,9 @@ class SeoController extends \module\core\component\Controller
         if ($path && WS::$app->request->isPost) {
             $data = WS::$app->request->post('data');
 
-            $seoMeta = \common\cms\models\SiteSeoMeta::findOne($path);
+            $seoMeta = \models\SiteSeoMeta::findOne($path);
             if (!$seoMeta) {
-                $seoMeta = new \common\cms\models\SiteSeoMeta();
+                $seoMeta = new \models\SiteSeoMeta();
                 $seoMeta->path = $path;
             }
             $seoMeta->setAttributes($data, false);
@@ -24,7 +24,7 @@ class SeoController extends \module\core\component\Controller
         }
 
         $configs = include(APP_ROOT.'/../houses/config/metas.configs.php');
-        $entity = \common\cms\models\SiteSeoMeta::findOneAsArray($path);
+        $entity = \models\SiteSeoMeta::findOneAsArray($path);
 
         return $this->render('index.phtml', [
             'currentPath' => $path,

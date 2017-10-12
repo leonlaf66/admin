@@ -1,7 +1,7 @@
 <?php
 namespace module\yellowpage\model;
 
-class Yellowpage extends \common\yellowpage\YellowPage
+class Yellowpage extends \models\YellowPage
 {
     public $photo;
     public $category_ids;
@@ -53,7 +53,7 @@ class Yellowpage extends \common\yellowpage\YellowPage
 
         foreach($this->category_ids as $cid) {
             if(! in_array($cid, $originTypeIds)) {
-                $m = new \common\yellowpage\YellowPageType();
+                $m = new \models\YellowPageType();
                 $m->yellow_page_id = $this->id;
                 $m->type_id = $cid;
                 $m->save();
