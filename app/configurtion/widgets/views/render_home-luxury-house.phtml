@@ -12,12 +12,32 @@
             <th>Actions</th>
         </tr>
         </thead>
+    <?php if (!$entity->value || count($entity->value) === 0):?>
+        <tr class="data-row" data-row="<?php echo $idx + 1?>">
+            <td>
+                <input value=""/>
+            </td>
+            <td><img class="image" height="80px" src="http://iph.href.lu/140x80?text=X&fg=CCC&bg=EEE"></td>
+            <td>
+                <select>
+                    <?php foreach($colRules as $rule):?>
+                        <option value="<?php echo $rule?>"><?php echo str_replace('-', '/', $rule)?></option>
+                    <?php endforeach?>
+                </select>
+            </td>
+            <td>
+                <a class="btn-insert" href="javascript:void(0)">Insert</a>
+                <a class="btn-append" href="javascript:void(0)">Append</a>
+                <a class="btn-remove" href="javascript:void(0)">Remove</a>
+            </td>
+        </tr>
+    <?php endif?>
     <?php foreach($entity->value as $idx => $item):?>
         <tr class="data-row" data-row="<?php echo $idx + 1?>">
             <td>
                 <input value="<?php echo $item->id?>"/>
             </td>
-            <td><img class="image" height="80px" src="<?php echo media_url($item->image)?>"></td>
+            <td><img class="image" alt="Image Error" title="Image Error" height="80px" src="<?php echo media_url($item->image)?>"></td>
             <td>
                 <select>
                     <?php foreach($colRules as $rule):?>
@@ -174,5 +194,7 @@ $('.toolbar button[type=submit]').click(function () {
 }
 .home-luxury-house-grid .table .image:hover {
     filter: brightness(0.3);
+    background: #fff;
+    color: red;
 }
 </style>

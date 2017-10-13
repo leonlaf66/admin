@@ -11,7 +11,7 @@ class HomeLuxuryHouse
 
             $base64Pos = strpos($image, 'data:image/jpeg;base64,');
             if ($base64Pos === false) {
-                $items[$idx]['image'] = str_replace(media_url(), '', $items[$idx]['image']);
+                $items[$idx]['image'] = str_replace(media_url().'/', '', $items[$idx]['image']);
                 continue;
             }
 
