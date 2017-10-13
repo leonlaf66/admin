@@ -26,6 +26,8 @@ class SeoController extends \module\core\component\Controller
         $configs = include(APP_ROOT.'/../houses/config/metas.configs.php');
         $entity = \models\SiteSeoMeta::findOneAsArray($path);
 
+        $this->view->setActiveMenuId('seo');
+
         return $this->render('index.phtml', [
             'currentPath' => $path,
             'configs' => $configs,

@@ -1,0 +1,11 @@
+<div class="page-title">
+    Configuration settings: <?php echo $entity->path?>
+    <div class="toolbar">
+        <button type="reset" class="btn btn-primary btn-sm"><i class="glyphicon glyphicon-repeat"></i> Reset</button>
+        <button type="submit" class="btn btn-primary btn-sm"><i class="glyphicon glyphicon-floppy-saved"></i> Save</button>
+    </div>
+</div>
+
+<div class="config-setting">
+    <?php echo $render::widget(['entity' => $entity])?>
+</div>

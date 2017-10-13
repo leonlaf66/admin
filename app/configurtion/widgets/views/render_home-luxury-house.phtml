@@ -1,0 +1,176 @@
+<?php
+    $colRules = ['1-2', '1-3', '2-3'];
+?>
+<div class="home-luxury-house-grid">
+    <input type="file" id="image-uploader" onchange="imageChanged(this)" style="visibility:hidden;" /> 
+    <table class="table" style="width:auto">
+        <thead>
+        <tr>
+            <th>List No</th>
+            <th>Image</th>
+            <th>Col Rule</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+    <?php foreach($entity->value as $idx => $item):?>
+        <tr class="data-row" data-row="<?php echo $idx + 1?>">
+            <td>
+                <input value="<?php echo $item->id?>"/>
+            </td>
+            <td><img class="image" height="80px" src="<?php echo $item->image?>"></td>
+            <td>
+                <select>
+                    <?php foreach($colRules as $rule):?>
+                        <?php
+                            $_selected = $item->col_rule === $rule ? 'selected="selected"' : '';
+                        ?>
+                        <option <?php echo $_selected?> value="<?php echo $rule?>"><?php echo str_replace('-', '/', $rule)?></option>
+                    <?php endforeach?>
+                </select>
+            </td>
+            <td>
+                <a class="btn-insert" href="javascript:void(0)">Insert</a>
+                <a class="btn-append" href="javascript:void(0)">Append</a>
+                <a class="btn-remove" href="javascript:void(0)">Remove</a>
+            </td>
+        </tr>
+    <?php endforeach?>
+    </table>
+</div>
+
+<template type="html/text" id="row-template-id">
+    <input value="">
+</template>
+
+<template type="html/text" id="row-template-image">
+    <img class="image" height="80px" src="http://iph.href.lu/140x80?text=X&fg=CCC&bg=EEE">
+</template>
+
+<template type="html/text" id="row-template-col_rule">
+    <select>
+        <?php foreach($colRules as $rule):?>
+            <?php
+                $_selected = $rule === '1-3' ? 'selected="selected"' : '';
+            ?>
+            <option <?php echo $_selected?> value="<?php echo $rule?>"><?php echo str_replace('-', '/', $rule)?></option>
+        <?php endforeach?>
+    </select>
+</template>
+
+<template type="html/text" id="row-template-action">
+    <a class="btn-insert" href="javascript:void(0)">Insert</a>
+    <a class="btn-append" href="javascript:void(0)">Append</a>
+    <a class="btn-remove" href="javascript:void(0)">Remove</a>
+</template>
+
+<script type="text/javascript">
+// 表格对象
+var $table = $('.home-luxury-house-grid .table');
+// 方法: 添加一行
+function addRow(row)
+{
+    var newRow = $table.get(0).insertRow(row);
+    newRow.className = 'data-row';
+
+    var col1 = newRow.insertCell(0);
+    col1.innerHTML = $('#row-template-id').html();
+
+    var col2 = newRow.insertCell(1);
+    col2.innerHTML = $('#row-template-image').html();
+
+    var col3 = newRow.insertCell(2);
+    col3.innerHTML = $('#row-template-col_rule').html();
+
+    var col4 = newRow.insertCell(3);
+    col4.innerHTML = $('#row-template-action').html();
+
+    setTimeout(function () {
+        redrawRows();
+    }, 100);
+}
+//刷新行号
+function redrawRows() {
+    $('.home-luxury-house-grid .table tr.data-row').each(function (idx) {
+        this.setAttribute('data-row', idx + 1);
+    });
+}
+// 图片上传开始
+function imageChanged(fileDom) {
+    if (fileDom.value === '') return;
+
+    var reader = new FileReader();
+    var file = fileDom.files[0];
+
+    //是否是图片
+    if (!/^image\//.test(file.type)) {
+        alert("Please choose image!");
+        return;
+    }
+
+    //读取完成
+    reader.onload = function(e) {
+        fileDom.value = '';
+
+        var rowNo = $(fileDom).data('current');
+        $('.home-luxury-house-grid .table tr[data-row='+rowNo+'] .image').attr('src', e.target.result);
+    };
+    reader.readAsDataURL(file);
+}
+// 图片上传
+$('.home-luxury-house-grid').delegate('.image', 'click', function () {
+    var rowNo = $(this).parents('tr').data('row');
+    $('#image-uploader').trigger('click').data('current', rowNo);
+});
+// 在前面插入
+$('.home-luxury-house-grid').delegate('.btn-insert', 'click', function () {
+    var rowNo = $(this).parents('tr').data('row');
+    addRow(rowNo);
+});
+// 在后台添加
+$('.home-luxury-house-grid').delegate('.btn-append', 'click', function () {
+    var rowNo = parseInt($(this).parents('tr').data('row')) + 1;
+    addRow(rowNo);
+});
+// 删除一行
+$('.home-luxury-house-grid').delegate('.btn-remove', 'click', function () {
+    $(this).parents('tr').remove();
+    setTimeout(function () {
+        redrawRows();
+    }, 100);
+});
+// 重置
+$('.toolbar button[type=reset]').click(function () {
+    window.location.reload();
+});
+// 重置
+$('.toolbar button[type=submit]').click(function () {
+    var items = [];
+    var $this, listNo, imageSrc, rule;
+    $('.home-luxury-house-grid .table tr.data-row').each(function (idx) {
+        $this = $(this);
+        listNo = $this.find('input').val();
+        imageSrc = $this.find('img').attr('src');
+        rule = $this.find('select').val();
+
+        items.push({
+            id: listNo,
+            image: imageSrc,
+            col_rule: rule
+        });
+    });
+
+    $.post('<?php echo $this->createUrl(['configurtion/setting/save', 'path' => $entity->path])?>', {
+        _csrf: document.getElementsByName('csrf-token')[0].getAttribute('content'),
+        data: items
+    });
+});
+</script>
+
+<style type="text/css">
+.home-luxury-house-grid .table>thead>tr>th {
+    border-bottom-color:#aaa;
+}
+.home-luxury-house-grid .table .image:hover {
+    filter: brightness(0.3);
+}
+</style>

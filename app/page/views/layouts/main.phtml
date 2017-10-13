@@ -101,8 +101,11 @@
                 </ul>
                 <h2 class="group">Configurtions</h2>
                 <ul>
-                    <li class="<?php $this->activeMenuItem('seo')?>">
-                        <a href="<?php echo $this->createUrl(['configurtion/setting/index'])?>"> Settings</a>
+                    <li class="<?php $this->activeMenuItem('setting-general')?>">
+                        <a href="<?php echo $this->createUrl(['configurtion/setting/index'])?>"> General</a>
+                    </li>
+                    <li class="<?php $this->activeMenuItem('setting-home-luxury-houses')?>">
+                        <a href="<?php echo $this->createUrl(['configurtion/setting/index', 'id' => 'home.luxury.houses'])?>"> Luxury Houses</a>
                     </li>
                 </ul>
             </div>
