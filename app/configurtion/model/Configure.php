@@ -49,7 +49,7 @@ class Configure extends \models\SiteSetting
         return $mergedData;
     }
 
-    public static function saveRowData($path, $data, $toJson = false)
+    public static function saveRowData($path, $value, $toJson = false)
     {
         $item = self::find()->where(['path'=>$path])->one();
         if(! $item) $item = new self();
@@ -64,7 +64,7 @@ class Configure extends \models\SiteSetting
         $item = null;
 
         foreach($data as $path=>$value) {
-            $this->saveRowData($path, $value);
+            self::saveRowData($path, $value, $toJson);
         }
     }
 }
