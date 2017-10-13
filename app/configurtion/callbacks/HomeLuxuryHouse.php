@@ -9,9 +9,14 @@ class HomeLuxuryHouse
             $mlsId = $item['id'];
             $image = $item['image'];
 
-            if (strpos($image, 'data:image/jpeg;base64,') !== 0) {
+            $base64Pos = strpos($image, 'data:image/jpeg;base64,');
+            if ($base64Pos === false) {
                 $items[$idx]['image'] = str_replace(media_url(), '', $items[$idx]['image']);
                 continue;
+            }
+
+            if ($base64Pos !== 0) {
+                $image = substr($image, $base64Pos + strlen('data:image/jpeg;base64,'));
             }
 
             $dir = media_file('home-luxury-house');

@@ -39,7 +39,7 @@ class SettingController extends \module\core\component\Controller
 
             $processClassName = "\\module\\configurtion\\callbacks\\".$row->input_type;
             $processClassName::process($row->path, $data);
-            
+
             $row->value = json_encode($data);
             return $row->save();
         }
