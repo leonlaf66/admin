@@ -36,6 +36,10 @@ class SettingController extends \module\core\component\Controller
         if ($path) {
             $data = WS::$app->request->post('data');
             $row = \models\SiteSetting::find()->where(['path' => $path])->one();
+
+            $processClassName = "\\module\\configurtion\\callbacks\\".$row->input_type;
+            $processClassName::process($row->path, $data);
+            
             $row->value = json_encode($data);
             return $row->save();
         }

@@ -17,7 +17,7 @@
             <td>
                 <input value="<?php echo $item->id?>"/>
             </td>
-            <td><img class="image" height="80px" src="<?php echo $item->image?>"></td>
+            <td><img class="image" height="80px" src="<?php echo media_url($item->image)?>"></td>
             <td>
                 <select>
                     <?php foreach($colRules as $rule):?>
@@ -142,7 +142,7 @@ $('.home-luxury-house-grid').delegate('.btn-remove', 'click', function () {
 $('.toolbar button[type=reset]').click(function () {
     window.location.reload();
 });
-// 重置
+// 提交
 $('.toolbar button[type=submit]').click(function () {
     var items = [];
     var $this, listNo, imageSrc, rule;
@@ -162,6 +162,8 @@ $('.toolbar button[type=submit]').click(function () {
     $.post('<?php echo $this->createUrl(['configurtion/setting/save', 'path' => $entity->path])?>', {
         _csrf: document.getElementsByName('csrf-token')[0].getAttribute('content'),
         data: items
+    }, function (res) {
+        window.location.reload();
     });
 });
 </script>
