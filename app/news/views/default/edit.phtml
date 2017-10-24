@@ -67,7 +67,7 @@ $form = ActiveForm::begin([
     <div class="panel-heading okd">Other Information</div>
     <div class="panel-body">
         <?php echo $form->field($news, 'is_public')->dropDownList(['0'=>'No', '1'=>'Yes']) ?>
-        <?php echo $form->field($news, 'towns')->checkboxList(['MA'=>'马萨诸塞州'], ['multiple' => true]) ?>
+        <?php echo $form->field($news, 'area_id')->checkboxList(['ma'=>'马萨诸塞州'], ['multiple' => true]) ?>
         <?php echo $form->field($news, 'is_infomation')->dropDownList(['0'=>'No', '1'=>'Yes']) ?>
         <?php echo $form->field($news, 'is_hot')->dropDownList(['0'=>'No', '1'=>'Yes']) ?>
         <?php echo $form->field($news, 'status')->dropDownList(['0'=>'No Publish', '1'=>'Published']) ?>
