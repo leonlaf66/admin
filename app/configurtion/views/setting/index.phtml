@@ -1,7 +1,7 @@
-<form action="<?php echo $this->createUrl('configurtion/setting/save')?>" method="POST">
+<form action="<?php echo $this->createUrl(['configurtion/setting/save', 'area_id' => $areaId])?>" method="POST">
 
 <div class="page-title">
-    Configuration settings
+    Configuration settings (for <?php echo $areaId === 'global' ? ucfirst($areaId) : strtoupper($areaId)?>)
     <div class="toolbar">
         <button type="reset" class="btn btn-primary btn-sm"><i class="glyphicon glyphicon-repeat"></i> Reset</button>
         <button type="submit" class="btn btn-primary btn-sm"><i class="glyphicon glyphicon-floppy-saved"></i> Save</button>
@@ -16,13 +16,17 @@
                 <div class="group-title"><?php echo $_group['name']?></div>
             </td>
         </tr>
-        <?php foreach($_group['items'] as $_key=>$_value):?>
+        <?php foreach($_group['items'] as $_key=>$_valOpts):?>
             <tr class="row-item">
                 <td class="config-item">
-                    <?php echo $_key?>
+                    <?php echo $_valOpts['title']?>
                 </td>
                 <td class="config-value">
-                    <input type="text" name="config[<?php echo $_key?>]" class="config-input" value="<?php echo $_value?>">
+                    <?php if (! isset($_valOpts['link'])):?>
+                        <input type="text" name="config[<?php echo $_key?>]" class="config-input" value="<?php echo $_valOpts['value']?>">
+                    <?php else:?>
+                        <a href="<?php echo \yii\helpers\Url::toRoute(['/configurtion/setting/index', 'id' => $_key, 'area_id' => $areaId])?>">Settings...</a>
+                    <?php endif?>
                 </td>
             </tr>
         <?php endforeach?>
@@ -34,7 +38,7 @@
 .config-setting{width:100%;margin-top:10px;}
 .config-setting .row-group .config-group{padding-bottom:10px;padding-top:15px;}
 .config-setting .config-group .group-title{border-bottom:solid 1px #eee;font-weight:bold;padding-bottom:4px;}
-.config-setting .config-item{width:10%;padding:5px 0;}
+.config-setting .config-item{width:15%;padding:5px 0;}
 .config-setting .config-value{padding:5px 0;padding-left:10px;}
 .config-setting .config-input{width:100%;}
 </style>

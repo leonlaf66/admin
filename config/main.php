@@ -59,5 +59,5 @@ return \yii\helpers\ArrayHelper::merge(get_fdn_etc(), [
     ],
     'aliases'=>[
         'module'=>APP_ROOT.'/app'
-    ]
+    ],
 ], include(__DIR__.'/local.php'));

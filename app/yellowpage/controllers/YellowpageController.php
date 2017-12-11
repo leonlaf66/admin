@@ -8,7 +8,7 @@ use yii\web\UploadedFile;
 
 class YellowpageController extends \module\core\component\Controller
 {
-    public function actionIndex()
+    public function actionIndex($area_id)
     {
         $req = WS::$app->request;
         if($req->get('action') === 'weight') {
@@ -22,12 +22,13 @@ class YellowpageController extends \module\core\component\Controller
             WS::$app->end();
         }
 
-        $this->view->setActiveMenuId('yellowpages');
+        $this->view->setActiveMenuId('yellowpages-'.$area_id);
 
         $searchModel = new YellowpageSearch();
         $searchModel->setAttributes($req->get('YellowpageSearch'));
 
         $dataProvider = Yellowpage::search($searchModel);
+        $dataProvider->query->andWhere(['area_id'=>$area_id]);
 
         return $this->render('index.phtml', [
             'dataProvider'=>$dataProvider,
@@ -35,18 +36,19 @@ class YellowpageController extends \module\core\component\Controller
         ]);
     }
 
-    public function actionEdit($id = null)
+    public function actionEdit($area_id, $id = null)
     {
-        return $this->actionUpdate($id);
+        return $this->actionUpdate($area_id, $id);
     }
 
-    public function actionUpdate($id = null)
+    public function actionUpdate($area_id, $id = null)
     {
         if($id) {
             $yellowpage = Yellowpage::findOne($id);
         }
         else {
             $yellowpage = new Yellowpage();
+            $yellowpage->weight = 0;
         }
 
         if(WS::$app->request->isPost) {
@@ -56,11 +58,22 @@ class YellowpageController extends \module\core\component\Controller
                     $yellowpage->photo_hash = \common\helper\Media::init('yellowpage')->getUploader()->uploadAsFormData($uploader);
                 }
                 $yellowpage->save();
-                $this->redirect(['/yellowpage/yellowpage/index']);
+                $this->redirect(['/yellowpage/yellowpage/index', 'area_id'=>$area_id]);
             }
         }
 
+        //citis
+        $citis = [];
+        if ($area_id === 'ma') {
+            $citis = \models\Town::mapOptions();
+        } else {
+            $citis = \models\City::mapOptions(strtoupper($area_id));
+        }
+
+        $this->view->setActiveMenuId('yellowpages-'.$area_id);
+
         return $this->render('edit.phtml', [
+            'cities' => $citis,
             'yellowpage'=>$yellowpage
         ]);
     }

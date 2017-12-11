@@ -15,7 +15,7 @@ class DefaultController extends \module\core\component\Controller
         $searchModel = new NewsSearch();
         $searchModel->setAttributes(\Yii::$app->request->get('NewsSearch'));
 
-        $dataProvider = News::search($searchModel);
+        $dataProvider = News::doSearch($searchModel);
 
         return $this->render('index.phtml', [
             'dataProvider'=>$dataProvider,

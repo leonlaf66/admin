@@ -36,7 +36,7 @@ $form = ActiveForm::begin([
 ?>
 
 <div class="page-title">
-    View Template Editor
+    View Template Editor(for Listhub)
     <div class="toolbar">
         <?php echo Html::submitButton('<span class="glyphicon glyphicon-ok-circle"></span> Save', ['class'=>'btn btn-primary','name' =>'submit-button']) ?>   
         <?php echo Html::resetButton('<span class="glyphicon glyphicon-repeat"></span> Reset', ['class'=>'btn','name' =>'submit-button']) ?>
@@ -44,8 +44,8 @@ $form = ActiveForm::begin([
 </div>
 
 <ul class="types">
-    <?php foreach(['rn', 'sf', 'mf', 'cc', 'ci', 'bu', 'ld'] as $code):?>
-        <li class="<?php echo $currentType == $code ? 'active' : ''?>"><a href="<?php echo $this->createUrl(['rets/view-template-editor/show', 'type'=>$code])?>"><?php echo strtoupper($code)?></a></li>
+    <?php foreach(['rn', 'sf', 'mf', 'cc', 'ci', 'ld'] as $code):?>
+        <li class="<?php echo $currentType == $code ? 'active' : ''?>"><a href="<?php echo $this->createUrl(['rets/view-template-editor/listhub-show', 'type'=>$code])?>"><?php echo strtoupper($code)?></a></li>
     <?php endforeach?>
 </ul>
 
@@ -87,7 +87,7 @@ $form = ActiveForm::begin([
     htmlMode: false,
     indentWithTabs: true,
     autofocus: true,
-    implicitlyClosed:{'rn':true, 'sf':true, 'mf':true, 'cc':true, 'ci':true, 'bu':true, 'ld':true,'group':true,'fields':true},
+    implicitlyClosed:{'rn':true, 'sf':true, 'mf':true, 'cc':true, 'ci':true, 'ld':true,'group':true,'fields':true},
     contextGrabbers:{'title':true,'prefix':true,'suffix':true},
     extraKeys: {
         "'>'": function(cm) { cm.closeTag(cm, '>'); },

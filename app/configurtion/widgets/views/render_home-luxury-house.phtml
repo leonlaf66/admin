@@ -1,5 +1,6 @@
 <?php
     $colRules = ['1-2', '1-3', '2-3'];
+    $idx = 0;
 ?>
 <div class="home-luxury-house-grid">
     <input type="file" id="image-uploader" onchange="imageChanged(this)" style="visibility:hidden;" /> 
@@ -12,6 +13,7 @@
             <th>Actions</th>
         </tr>
         </thead>
+        <?php if(!$entity->value) $entity->value = [];?>
     <?php if (!$entity->value || count($entity->value) === 0):?>
         <tr class="data-row" data-row="<?php echo $idx + 1?>">
             <td>
@@ -179,7 +181,7 @@ $('.toolbar button[type=submit]').click(function () {
         });
     });
 
-    $.post('<?php echo $this->createUrl(['configurtion/setting/save', 'path' => $entity->path])?>', {
+    $.post('<?php echo $this->createUrl(['configurtion/setting/save', 'path' => $entity->path, 'area_id' => \WS::$app->request->get('area_id')])?>', {
         _csrf: document.getElementsByName('csrf-token')[0].getAttribute('content'),
         data: items
     }, function (res) {

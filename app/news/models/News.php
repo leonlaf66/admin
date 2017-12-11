@@ -13,7 +13,7 @@ class News extends \models\News
             [['content', 'md_content'], 'string', 'min'=>10],
             [['is_public', 'is_infomation', 'is_hot'], 'boolean', 'trueValue'=>'1', 'falseValue'=>'0'],
             // [['image'], 'file'],
-            [['status', 'towns', 'updated_at'], 'safe']
+            [['status', 'towns', 'area_id', 'updated_at'], 'safe']
         ];
     }
 
@@ -27,7 +27,7 @@ class News extends \models\News
         ];
     }
 
-    public static function search($newsSearch = null)
+    public static function doSearch($newsSearch = null)
     {
         $query = self::find();
 

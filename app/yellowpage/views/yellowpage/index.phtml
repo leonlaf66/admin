@@ -6,11 +6,11 @@ use \module\core\component\GridRangeFilter;
 ?>
 
 <div class="page-title">
-    Manage Yellowpages
+    Manage Yellowpages (for <?php echo strtoupper(\WS::$app->request->get('area_id'))?>)
     <div class="toolbar">
         <?php echo Html::a(
                             '<span class="glyphicon glyphicon-plus"></span> New', 
-                            \WS::$app->urlManager->createUrl('yellowpage/yellowpage/edit'),
+                            \WS::$app->urlManager->createUrl(['yellowpage/yellowpage/edit', 'area_id'=>\WS::$app->request->get('area_id')]),
                             ['class'=>'btn btn-primary','name' =>'submit-button']
                         ) ?>
     </div>
@@ -87,7 +87,10 @@ $gridColumns = [
         'class' => 'yii\grid\ActionColumn',
         'header'=>'Actions',
         'buttons'=>[
-            'view'=>function(){return '';}
+            'view'=>function(){return '';},
+            'update'=>function($url,$model, $key){
+                return Html::a('<span class="glyphicon glyphicon-pencil"></span>', Url::toRoute(['/yellowpage/yellowpage/update', 'id'=>$model->id, 'area_id'=>\WS::$app->request->get('area_id')]));
+            }
         ],
         'options'=>[
             'width'=>'30px'
@@ -108,7 +111,7 @@ echo GridView::widget([
 
 <script>
 $(function(){
-    var weightPostUrl = '<?php echo Url::toRoute(['/yellowpage/yellowpage/index'])?>';
+    var weightPostUrl = '<?php echo Url::toRoute(['/yellowpage/yellowpage/index', 'area_id'=>\WS::$app->request->get('area_id')])?>';
     $('.table input.yellowpage-weight').change(function(){
         var $self = $(this),
             $item = $self.parents('tr[data-key]'),

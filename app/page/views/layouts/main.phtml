@@ -66,7 +66,10 @@
                         <a href="<?php echo $this->createUrl(['rets/go-tour/index'])?>">Go Tour</a>
                     </li>
                     <li class="<?php $this->activeMenuItem('rets-view-template')?>">
-                        <a href="<?php echo $this->createUrl(['rets/view-template-editor/show'])?>">View Template</a>
+                        <a href="<?php echo $this->createUrl(['rets/view-template-editor/show'])?>">View Template(MA)</a>
+                    </li>
+                    <li class="<?php $this->activeMenuItem('rets-view-template2')?>">
+                        <a href="<?php echo $this->createUrl(['rets/view-template-editor/listhub-show'])?>">View Template(Listhub)</a>
                     </li>
                 </ul>
                 <h2 class="group">NEWS</h2>
@@ -80,8 +83,20 @@
                 </ul>
                 <h2 class="group">YELLOWPAGE</h2>
                 <ul>
-                    <li class="<?php $this->activeMenuItem('yellowpages')?>">
-                        <a href="<?php echo $this->createUrl(['yellowpage/yellowpage/index'])?>">Yellowpages</a>
+                    <li class="<?php $this->activeMenuItem('yellowpages-ma')?>">
+                        <a href="<?php echo $this->createUrl(['yellowpage/yellowpage/index', 'area_id'=>'ma'])?>">Items(for MA)</a>
+                    </li>
+                    <li class="<?php $this->activeMenuItem('yellowpages-ny')?>">
+                        <a href="<?php echo $this->createUrl(['yellowpage/yellowpage/index', 'area_id'=>'ny'])?>">Items(for NY)</a>
+                    </li>
+                    <li class="<?php $this->activeMenuItem('yellowpages-ga')?>">
+                        <a href="<?php echo $this->createUrl(['yellowpage/yellowpage/index', 'area_id'=>'ga'])?>">Items(for GA)</a>
+                    </li>
+                    <li class="<?php $this->activeMenuItem('yellowpages-il')?>">
+                        <a href="<?php echo $this->createUrl(['yellowpage/yellowpage/index', 'area_id'=>'il'])?>">Items(for IL)</a>
+                    </li>
+                    <li class="<?php $this->activeMenuItem('yellowpages-dc')?>">
+                        <a href="<?php echo $this->createUrl(['yellowpage/yellowpage/index', 'area_id'=>'ca'])?>">Items(for CA)</a>
                     </li>
                     <li class="<?php $this->activeMenuItem('categories-2')?>">
                         <a href="<?php echo $this->createUrl(['/category/default/index', 'taxonomyId'=>2])?>">Categories</a>
@@ -101,11 +116,23 @@
                 </ul>
                 <h2 class="group">Configurtions</h2>
                 <ul>
-                    <li class="<?php $this->activeMenuItem('setting-general')?>">
-                        <a href="<?php echo $this->createUrl(['configurtion/setting/index'])?>"> General</a>
+                    <li class="<?php $this->activeMenuItem('setting-general-global')?>">
+                        <a href="<?php echo $this->createUrl(['configurtion/setting/index', 'area_id'=>'global'])?>">General for Global</a>
                     </li>
-                    <li class="<?php $this->activeMenuItem('setting-home-luxury-houses')?>">
-                        <a href="<?php echo $this->createUrl(['configurtion/setting/index', 'id' => 'home.luxury.houses'])?>"> Luxury Houses</a>
+                    <li class="<?php $this->activeMenuItem('setting-general-ma')?>">
+                        <a href="<?php echo $this->createUrl(['configurtion/setting/index', 'area_id'=>'ma'])?>">Settings for MA</a>
+                    </li>
+                    <li class="<?php $this->activeMenuItem('setting-general-ny')?>">
+                        <a href="<?php echo $this->createUrl(['configurtion/setting/index', 'area_id'=>'ny'])?>">Settings for NY</a>
+                    </li>
+                    <li class="<?php $this->activeMenuItem('setting-general-ga')?>">
+                        <a href="<?php echo $this->createUrl(['configurtion/setting/index', 'area_id'=>'ga'])?>">Settings for GA</a>
+                    </li>
+                    <li class="<?php $this->activeMenuItem('setting-general-il')?>">
+                        <a href="<?php echo $this->createUrl(['configurtion/setting/index', 'area_id'=>'il'])?>">Settings for IL</a>
+                    </li>
+                    <li class="<?php $this->activeMenuItem('setting-general-dc')?>">
+                        <a href="<?php echo $this->createUrl(['configurtion/setting/index', 'area_id'=>'ca'])?>">Settings for CA</a>
                     </li>
                 </ul>
             </div>
