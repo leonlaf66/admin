@@ -65,7 +65,7 @@ class Configure extends \models\SiteSetting
         });
     }
 
-    public static function saveRowData($areaId, $path, $value, $toJson = false)
+    public static function saveRowData($areaId, $path, $value)
     {
         $item = self::find()->where(['path'=>$path, 'site_id' => $areaId])->one();
         if (! $item) {
@@ -74,7 +74,7 @@ class Configure extends \models\SiteSetting
             $item->site_id = $areaId;
         }
 
-        $item->value = $toJson ? json_encode($value) : $value;
+        $item->value = json_encode($value);
         $item->save();
     }
 

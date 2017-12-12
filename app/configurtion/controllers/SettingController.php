@@ -54,7 +54,7 @@ class SettingController extends \module\core\component\Controller
 
                             $outs = [];
                             foreach ($rows as $row) {
-                                $outs[] = $row->id;
+                                $outs[] = $row['id'];
                             }
                             return implode(',', $outs);
                         }
@@ -137,6 +137,6 @@ class SettingController extends \module\core\component\Controller
             \module\configurtion\model\Configure::saveData($area_id, $configData);
         }
 
-        return $this->redirect(['/configurtion/setting/index', 'area_id' => $area_id]);
+        return $this->redirect(['/configurtion/setting/index', 'area_id' => ($area_id ? $area_id : 'global')]);
     }
 }
