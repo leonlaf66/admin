@@ -35,12 +35,12 @@ class Configure extends \models\SiteSetting
                 if (isset($localConfiguationData[$id])) {
                     $options = array_merge($localConfiguationData[$id], $options);
 
-                    if (is_null($areaId) && isset($options['private']) === false) {
+                    if (is_null($areaId) && isset($options['private']) === false) { // 公共的
                         $resultItems[$id] = [
                             'title' => $options['title'],
                             'value' => self::getValue($id)
                         ];
-                    } elseif (!is_null($areaId) && isset($options['private']) ) {
+                    } elseif (!is_null($areaId) && isset($options['private']) ) { // 私有的
                         $resultItems[$id] = [
                             'title' => $options['title'],
                             'value' => self::getValue($id, $areaId)
@@ -48,8 +48,8 @@ class Configure extends \models\SiteSetting
                     }
                 }
 
-                if (isset($resultItems[$id]) && isset($options['link'])) {
-                    unset($resultItems[$id]['value']);
+                if (isset($resultItems[$id]) && isset($options['link'])) { // 复合配置
+                    $resultItems[$id]['display'] = ($options['display'])($resultItems[$id]['value']);
                     $resultItems[$id]['link'] = true;
                 }
             }

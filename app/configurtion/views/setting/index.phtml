@@ -25,7 +25,9 @@
                     <?php if (! isset($_valOpts['link'])):?>
                         <input type="text" name="config[<?php echo $_key?>]" class="config-input" value="<?php echo $_valOpts['value']?>">
                     <?php else:?>
-                        <a href="<?php echo \yii\helpers\Url::toRoute(['/configurtion/setting/index', 'id' => $_key, 'area_id' => $areaId])?>">Settings...</a>
+                        <a href="<?php echo \yii\helpers\Url::toRoute(['/configurtion/setting/index', 'id' => $_key, 'area_id' => $areaId])?>">
+                            <?php echo $_valOpts['display']?>
+                        </a>
                     <?php endif?>
                 </td>
             </tr>

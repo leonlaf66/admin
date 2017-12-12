@@ -9,37 +9,8 @@ class SettingController extends \module\core\component\Controller
     {
         $settingTree = [
             [
-                'title' => 'Rent',
-                'items' => [
-                    'lease.home.deluxe.hot.ids' => [
-                        'title' => 'Home Deluxe hot ids'
-                    ],
-                    'lease.home.deluxe.hot.more' => [
-                        'title' => 'Home Deluxe hot more link'
-                    ],
-                    'lease.home.newest.hot.ids' => [
-                        'title' => 'Home Newest hot ids'
-                    ],
-                    'lease.home.newest.hot.more' => [
-                        'title' => 'Home Newest hot more link'
-                    ]
-                ]
-            ],
-            [
                 'title' => 'Purchase',
                 'items' => [
-                    'purchase.home.deluxe.hot.ids' => [
-                        'title' => 'Home deluxe hot ids'
-                    ],
-                    'purchase.home.deluxe.hot.more' => [
-                        'title' => 'Home Deluxe hot more link'
-                    ],
-                    'purchase.home.newest.hot.ids' => [
-                        'title' => 'Home Newest hot ids'
-                    ],
-                    'purchase.home.newest.hot.more' => [
-                        'title' => 'Home Newest hot more link'
-                    ],
                     'purchase.mortgage-calculator.interest-rate.default' => [
                         'title' => 'Mortgage interest rate'
                     ]
@@ -58,13 +29,22 @@ class SettingController extends \module\core\component\Controller
                 'items' => [
                     'home.luxury.houses' => [
                         'title' => 'Home Luxury houses',
-                        'link' => true
+                        'link' => true,
+                        'display' => function ($rows) {
+                            if (empty($rows)) return 'Not Configured';
+
+                            $outs = [];
+                            foreach ($rows as $row) {
+                                $outs[] = $row->id;
+                            }
+                            return implode(',', $outs);
+                        }
                     ]
                 ]
             ]
         ];
 
-        if (is_null($id)) {
+        if (is_null($id)) { // 普通列表
             $mergedData = \module\configurtion\model\Configure::getAdminData($area_id === 'global' ? null : $area_id, $settingTree);
 
             $this->view->setActiveMenuId('setting-general-'.$area_id);
@@ -73,7 +53,7 @@ class SettingController extends \module\core\component\Controller
                 'areaId' => $area_id,
                 'configData'=>$mergedData
             ]);
-        } else {
+        } else { // 特定的
             $localConfiguation = WS::$app->configuationData;
             if (!isset($localConfiguation[$id])) exit;
 
@@ -95,8 +75,7 @@ class SettingController extends \module\core\component\Controller
             $entity->value = json_decode($entity->value);
 
             $render = '\module\configurtion\widgets\Render'.ucfirst($options['type']);
-
-            $this->view->setActiveMenuId('setting-'.str_replace('.', '-', $entity->path));
+            $this->view->setActiveMenuId('setting-general-'.$area_id);
 
             return $this->render('index_one.phtml', [
                 'areaId' => $area_id,
