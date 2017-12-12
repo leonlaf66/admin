@@ -48,7 +48,7 @@ class YellowpageController extends \module\core\component\Controller
         }
         else {
             $yellowpage = new Yellowpage();
-            $yellowpage->weight = 0;
+            $yellowpage->area_id = $area_id;
         }
 
         if(WS::$app->request->isPost) {

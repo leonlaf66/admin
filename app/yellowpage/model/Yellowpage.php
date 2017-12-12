@@ -22,7 +22,7 @@ class Yellowpage extends \models\YellowPage
         return [
             [['name', 'business', 'business_cn', 'contact', 'address', 'phone', 'email'], 'required'],
             [['is_top'], 'boolean'],
-            [['photo_hash', 'license', 'is_top', 'website', 'intro', 'category_ids', 'city_ids'], 'safe'],
+            [['photo_hash', 'license', 'is_top', 'website', 'intro', 'category_ids', 'city_ids', 'area_id'], 'safe'],
             [['longitude', 'latitude'], 'number'],
             [['photo'], 'image', 'extensions'=>['jpg']]
         ];
