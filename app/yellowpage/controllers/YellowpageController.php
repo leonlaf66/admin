@@ -78,7 +78,7 @@ class YellowpageController extends \module\core\component\Controller
         ]);
     }
 
-    public function actionDelete($id)
+    public function actionDelete($area_id, $id)
     {
         $id = intval($id);
         $db = \WS::$app->db;
@@ -91,6 +91,6 @@ class YellowpageController extends \module\core\component\Controller
 
             $yellowpage->delete();
         }
-        $this->redirect(['/yellowpage/yellowpage/index']);
+        $this->redirect(['/yellowpage/yellowpage/index', 'area_id' => $area_id]);
     }
 }

@@ -90,6 +90,9 @@ $gridColumns = [
             'view'=>function(){return '';},
             'update'=>function($url,$model, $key){
                 return Html::a('<span class="glyphicon glyphicon-pencil"></span>', Url::toRoute(['/yellowpage/yellowpage/update', 'id'=>$model->id, 'area_id'=>\WS::$app->request->get('area_id')]));
+            },
+            'delete' => function($url, $model, $key) {
+                return html::a('<span class="glyphicon glyphicon-trash"></span>', Url::toRoute(['/yellowpage/yellowpage/delete', 'id'=>$model->id, 'area_id'=>\WS::$app->request->get('area_id')]));
             }
         ],
         'options'=>[
