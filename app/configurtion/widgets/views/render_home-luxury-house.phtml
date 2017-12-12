@@ -37,14 +37,14 @@
     <?php foreach($entity->value as $idx => $item):?>
         <tr class="data-row" data-row="<?php echo $idx + 1?>">
             <td>
-                <input value="<?php echo $item->id?>"/>
+                <input value="<?php echo $item['id']?>"/>
             </td>
-            <td><img class="image" alt="Image Error" title="Image Error" height="80px" src="<?php echo media_url($item->image)?>"></td>
+            <td><img class="image" alt="Image Error" title="Image Error" height="80px" src="<?php echo media_url($item['image'])?>"></td>
             <td>
                 <select>
                     <?php foreach($colRules as $rule):?>
                         <?php
-                            $_selected = $item->col_rule === $rule ? 'selected="selected"' : '';
+                            $_selected = $item['col_rule'] === $rule ? 'selected="selected"' : '';
                         ?>
                         <option <?php echo $_selected?> value="<?php echo $rule?>"><?php echo str_replace('-', '/', $rule)?></option>
                     <?php endforeach?>

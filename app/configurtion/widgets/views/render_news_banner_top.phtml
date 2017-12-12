@@ -1,0 +1,93 @@
+<?php
+    if(!$entity->value) $entity->value = [
+        'main' => [],
+        'childrens' => []
+    ];
+?>
+
+<div id="news-banner-editor">
+    <div class="news-banner-editor">
+        <template v-if="isReady">
+            <div class="main-item">
+                <h5>Main</h5>
+                <table class="form-table">
+                    <tr v-for="(field, value) in mainItem">
+                        <th>{{field}}</th>
+                        <td><input v-model="value" class="input-control"/></td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="children-items">
+                <h5>Childrens</h5>
+                <table class="form-table" v-for="childItem in childrenItems">
+                    <tr v-for="(field, value) in childItem">
+                        <th>{{field}}</th>
+                        <td><input v-model="value" class="input-control"/></td>
+                    </tr>
+                </table>
+            </div>
+        </template>
+    </div>
+</div>
+
+<script type="text/javascript">
+    var vueApp = new Vue({
+        el: '#news-banner-editor',
+        data: {
+            isReady: false,
+            mainItem: <?php echo json_encode($entity->value['main'])?>,
+            childrenItems: <?php echo json_encode($entity->value['childrens'])?>
+        },
+        ready: function () {
+            this.mainItem = Object.assign({
+                title: '',
+                image: '',
+                url: '',
+                height: ''
+            }, this.mainItem);
+
+            var mulCount = 3 - this.childrenItems.length;
+            for(i = 0; i < mulCount; i ++) {
+                this.childrenItems.push({
+                    title: '',
+                    image: '',
+                    url: ''
+                });
+            }
+            this.isReady = true;
+        },
+        methods: {
+            submit: function () {
+                var data = {
+                    main: this.mainItem,
+                    childrens: this.childrenItems
+                };
+
+                $.post('<?php echo $this->createUrl(['configurtion/setting/save', 'path' => $entity->path, 'area_id' => \WS::$app->request->get('area_id')])?>', {
+                    _csrf: document.getElementsByName('csrf-token')[0].getAttribute('content'),
+                    data: data
+                }, function (res) {
+                    window.location.reload();
+                });
+            },
+        }
+    });
+
+    // 重置
+    $('.toolbar button[type=reset]').click(function () {
+        window.location.reload();
+    });
+    // 提交
+    $('.toolbar button[type=submit]').click(function () {
+        vueApp.submit();
+    });
+</script>
+
+
+<style>
+.form-table{width:100%;background:#eee;margin-bottom:10px;border-radius: 4px;}
+.form-table th, .form-table td {padding:7px 10px;}
+.form-table th {font-weight:200;width:50px;}
+    .form-table .input-control {width:100%}
+</style>

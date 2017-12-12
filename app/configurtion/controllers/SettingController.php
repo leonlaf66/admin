@@ -17,6 +17,25 @@ class SettingController extends \module\core\component\Controller
                 ]
             ],
             [
+                'title' => 'News',
+                'items' => [
+                    'news.banner.top' => [
+                        'title' => 'Website news banner',
+                        'link' => true,
+                        'display' => function () {
+                            return 'Settings...';
+                        }
+                    ],
+                    'app.news.banner.top' => [
+                        'title' => 'App news banner',
+                        'link' => true,
+                        'display' => function () {
+                            return 'Settings...';
+                        }
+                    ]
+                ]
+            ],
+            [
                 'title' => 'Google Map Account',
                 'items' => [
                     'google.map.key' => [
@@ -72,7 +91,7 @@ class SettingController extends \module\core\component\Controller
                 $entity->value = isset($options['default']) ? json_encode($options['default']) : json_encode(null);
                 $entity->site_id = $area_id === 'global' ? null : $area_id;
             }
-            $entity->value = json_decode($entity->value);
+            $entity->value = json_decode($entity->value, true);
 
             $render = '\module\configurtion\widgets\Render'.ucfirst($options['type']);
             $this->view->setActiveMenuId('setting-general-'.$area_id);
@@ -105,7 +124,9 @@ class SettingController extends \module\core\component\Controller
             }
 
             $processClassName = "\\module\\configurtion\\callbacks\\".$options['type'];
-            $processClassName::process($row->path, $data);
+            if (class_exists($processClassName)) {
+                $processClassName::process($row->path, $data);
+            }
 
             $row->value = json_encode($data);
             return $row->save();
