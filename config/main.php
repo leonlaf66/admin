@@ -43,6 +43,20 @@ return \yii\helpers\ArrayHelper::merge(get_fdn_etc(), [
             'loginUrl'         =>['user/account/login']
         ],
     ],
+    'controllerMap' => [
+        'elfinder' => [
+            'class' => 'mihaildev\elfinder\Controller',
+            'disabledCommands' => ['netmount'],
+            'access' => ['@'],
+            'roots' => [
+                [
+                    'baseUrl'=>'http://media.usleju.local/store',
+                    'basePath'=>'/Develops/branches/usleju/medias/store',
+                    'name' => 'Global'
+                ]
+            ]
+        ]
+    ],
     'modules'=>[
         'core'=>'module\core\Module',
         'user'=>'module\user\Module',
@@ -55,9 +69,9 @@ return \yii\helpers\ArrayHelper::merge(get_fdn_etc(), [
         'report'=>'module\report\Module',
         'news'=>'module\news\Module',
         'rets'=>'module\rets\Module',
-        'schooldistrict'=>'module\schooldistrict\Module'
+        'schooldistrict'=>'module\schooldistrict\Module',
     ],
     'aliases'=>[
         'module'=>APP_ROOT.'/app'
-    ],
+    ]
 ], include(__DIR__.'/local.php'));

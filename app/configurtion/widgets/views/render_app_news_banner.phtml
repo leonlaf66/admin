@@ -1,4 +1,6 @@
 <?php
+\mihaildev\elfinder\AssetsCallBack::register($this);
+
 if(!$entity->value) $entity->value = [
     'main' => [],
     'childrens' => []
@@ -8,22 +10,17 @@ if(!$entity->value) $entity->value = [
 <div id="news-banner-editor">
     <div class="news-banner-editor">
         <template v-if="isReady">
-            <div class="main-item">
-                <h5>Main</h5>
-                <table class="form-table">
-                    <tr v-for="(field, value) in mainItem">
-                        <th>{{field}}</th>
-                        <td><input v-model="value" class="input-control"/></td>
-                    </tr>
-                </table>
-            </div>
-
-            <div class="children-items">
-                <h5>Childrens</h5>
+            <div class="items">
                 <table class="form-table" v-for="childItem in childrenItems">
                     <tr v-for="(field, value) in childItem">
                         <th>{{field}}</th>
-                        <td><input v-model="value" class="input-control"/></td>
+                        <td>
+                          <div class="input-box" :class="{'has-button': field === 'image'}">
+                            <input v-model="value" class="input-control"/>
+                            <button v-if="field === 'image'" @click="selectImage(childItem, 1)">...</button>
+                            <div class="help" v-if="field === 'image'">Suggested size (px): 414 x 240</div>
+                          </div>
+                        </td>
                     </tr>
                 </table>
             </div>
@@ -47,7 +44,7 @@ if(!$entity->value) $entity->value = [
                 height: ''
             }, this.mainItem);
 
-            var mulCount = 3 - this.childrenItems.length;
+            var mulCount = 4 - this.childrenItems.length;
             for(i = 0; i < mulCount; i ++) {
                 this.childrenItems.push({
                     title: '',
@@ -58,6 +55,20 @@ if(!$entity->value) $entity->value = [
             this.isReady = true;
         },
         methods: {
+            selectImage: function (item, id) {
+              mihaildev.elFinder.functions = {}
+              mihaildev.elFinder.register(id, function (file, id) {
+                item.image = file.url
+                return true
+             });
+
+              mihaildev.elFinder.openManager({
+                url: '/index.php?r=elfinder/manager&callback=' + id,
+                width: 'auto',
+                height: 'auto',
+                id: id
+              })
+            },
             submit: function () {
                 var data = {
                     main: this.mainItem,
@@ -90,4 +101,8 @@ if(!$entity->value) $entity->value = [
     .form-table th, .form-table td {padding:7px 10px;}
     .form-table th {font-weight:200;width:50px;}
     .form-table .input-control {width:100%}
+    .form-table .input-box {position:relative;}
+    .form-table .input-box.has-button {padding-right:35px;}
+    .form-table .input-box .help {padding-top:3px;color:#999;}
+    .form-table .input-box button {position: absolute;right:0;top:0;width:30px;}
 </style>
