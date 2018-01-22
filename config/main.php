@@ -48,13 +48,7 @@ return \yii\helpers\ArrayHelper::merge(get_fdn_etc(), [
             'class' => 'mihaildev\elfinder\Controller',
             'disabledCommands' => ['netmount'],
             'access' => ['@'],
-            'roots' => [
-                [
-                    'baseUrl'=>'http://media.usleju.local/store',
-                    'basePath'=>'/Develops/branches/usleju/medias/store',
-                    'name' => 'Global'
-                ]
-            ]
+            'roots' => []
         ]
     ],
     'modules'=>[
