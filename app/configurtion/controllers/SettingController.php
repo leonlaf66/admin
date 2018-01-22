@@ -58,14 +58,6 @@ class SettingController extends \module\core\component\Controller
                             }
                             return implode(',', $outs);
                         }
-                    ],
-                    'news.banner.top' => [
-                        'title' => 'News Top Banner',
-                        'link' => true,
-                        'display' => function ($rows) {
-                            if (empty($rows)) return 'Not Configured';
-                            return 'Re Setting';
-                        }
                     ]
                 ]
             ]
