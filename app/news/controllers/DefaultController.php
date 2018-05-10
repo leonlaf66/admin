@@ -34,6 +34,7 @@ class DefaultController extends \module\core\component\Controller
 
         if(WS::$app->request->isPost) {
             $news->setAttributes(WS::$app->request->post('News'));
+            $news->content_raw = $news->content;
             $news->content_type = 'md';
             $news->updated_at = date('Y-m-d H:i:s', time());
             if ($news->validate()) {

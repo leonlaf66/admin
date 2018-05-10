@@ -10,7 +10,7 @@ class News extends \models\News
         return [
             [['type_id', 'title', 'content'], 'required'],
             [['title'], 'string', 'max'=>100],
-            [['content', 'md_content'], 'string', 'min'=>10],
+            [['content', 'md_content', 'content_raw'], 'string', 'min'=>10],
             [['is_public', 'is_infomation', 'is_hot'], 'boolean', 'trueValue'=>'1', 'falseValue'=>'0'],
             // [['image'], 'file'],
             [['status', 'towns', 'area_id', 'updated_at'], 'safe']
