@@ -108,10 +108,22 @@
                         <a href="<?php echo $this->createUrl(['schooldistrict/schooldistrict/index'])?>">School Districtss</a>
                     </li>
                 </ul>
-                <h2 class="group">SEO (for PC)</h2>
+                <h2 class="group">SEO (Only PC)</h2>
                 <ul>
-                    <li class="<?php $this->activeMenuItem('seo')?>">
-                        <a href="<?php echo $this->createUrl(['page/seo/index'])?>">Page Settings</a>
+                    <li class="<?php $this->activeMenuItem('seo-ma')?>">
+                        <a href="<?php echo $this->createUrl(['page/seo/index', 'area' => 'ma'])?>">Page Settings (for MA)</a>
+                    </li>
+                    <li class="<?php $this->activeMenuItem('seo-ny')?>">
+                        <a href="<?php echo $this->createUrl(['page/seo/index', 'area' => 'ny'])?>">Page Settings (for NY)</a>
+                    </li>
+                    <li class="<?php $this->activeMenuItem('seo-ga')?>">
+                        <a href="<?php echo $this->createUrl(['page/seo/index', 'area' => 'ga'])?>">Page Settings (for GA)</a>
+                    </li>
+                    <li class="<?php $this->activeMenuItem('seo-ca')?>">
+                        <a href="<?php echo $this->createUrl(['page/seo/index', 'area' => 'ca'])?>">Page Settings (for CA)</a>
+                    </li>
+                    <li class="<?php $this->activeMenuItem('seo-il')?>">
+                        <a href="<?php echo $this->createUrl(['page/seo/index', 'area' => 'il'])?>">Page Settings (for IL)</a>
                     </li>
                 </ul>
                 <h2 class="group">Configurtions</h2>

@@ -43,7 +43,7 @@
 <ul class="seo-meta-types">
     <?php foreach($configs as $path => $item):?>
         <li class="<?php echo $path === $currentPath ? 'active' : ''?>">
-            <a href="<?php echo \yii\helpers\Url::current(['path' => $path])?>"><?php echo $item['name']?></a>
+            <a href="<?php echo \yii\helpers\Url::current(['path' => $path, 'area' => $area])?>"><?php echo $item['name']?></a>
         </li>
     <?php endforeach?>
 </ul>
@@ -51,7 +51,9 @@
 <?php if ($currentPath):?>
     <template id="seo-editor">
         <div class="seo-variables">
-            <span style="color:#777">Variables:</span> <?php echo $configs[$currentPath]['variables']?>
+            <?php if(isset($configs[$currentPath]['variables'])):?>
+                <span style="color:#777">Variables:</span> <?php echo $configs[$currentPath]['variables']?>
+            <?php endif?>
         </div>
         <div class="seo-meta-page">
             <div class="field-item field-title">
