@@ -13,7 +13,7 @@ class News extends \models\News
             [['content', 'md_content', 'content_raw'], 'string', 'min'=>10],
             [['is_public', 'is_infomation', 'is_hot'], 'boolean', 'trueValue'=>'1', 'falseValue'=>'0'],
             // [['image'], 'file'],
-            [['status', 'towns', 'area_id', 'updated_at'], 'safe']
+            [['status', 'towns', 'area_id', 'updated_at', 'meta_title', 'meta_keywords', 'meta_description'], 'safe']
         ];
     }
 
