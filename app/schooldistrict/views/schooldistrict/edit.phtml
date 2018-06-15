@@ -242,6 +242,24 @@
                 <a class="link-btn" @click="addCommentItem()">+</a>
             </div>
         </div>
+
+        <div class="group">
+            <h2>Seo</h2>
+            <div class="field-item">
+                <label>Title</label>
+                <div class="input-group">
+                    <input type="number" min="0" max="5" v-model="result.seo.title" class="input-control">
+                </div>
+                <label>Keywords</label>
+                <div class="input-group">
+                    <input type="number" min="0" max="5" v-model="result.seo.keywords" class="input-control">
+                </div>
+                <label>Description</label>
+                <div class="input-group">
+                    <input type="number" min="0" max="5" v-model="result.seo.description" class="input-control">
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -293,7 +311,10 @@ new Vue({
             ],
             comments: [
                 {name: '', type: '', wordk_years: '', content: '', lang: 'zh-CN'}
-            ]
+            ],
+            seo: {
+                title: '', keywords: '', description: ''
+            }
         }
     },
     ready: function () {
