@@ -18,12 +18,17 @@
         </tr>
         <?php foreach($_group['items'] as $_key=>$_valOpts):?>
             <tr class="row-item">
-                <td class="config-item">
+                <td class="config-item" valign="top">
                     <?php echo $_valOpts['title']?>
                 </td>
                 <td class="config-value">
                     <?php if (! isset($_valOpts['link'])):?>
-                        <input type="text" name="config[<?php echo $_key?>]" class="config-input" value="<?php echo $_valOpts['value']?>">
+                        <?php if (in_array($_key, ['friended.links'])):?>
+                            <textarea name="config[<?php echo $_key?>]" class="config-input"><?php echo $_valOpts['value']?></textarea>
+                        <?php else:?>
+                            <input type="text" name="config[<?php echo $_key?>]" class="config-input" value="<?php echo $_valOpts['value']?>">
+                        <?php endif?>
+                        
                     <?php else:?>
                         <a href="<?php echo \yii\helpers\Url::toRoute(['/configurtion/setting/index', 'id' => $_key, 'area_id' => $areaId])?>">
                             <?php echo $_valOpts['display']?>
@@ -43,4 +48,9 @@
 .config-setting .config-item{width:15%;padding:5px 0;}
 .config-setting .config-value{padding:5px 0;padding-left:10px;}
 .config-setting .config-input{width:100%;}
+.config-setting textarea.config-input {
+    border:solid 1px #ddd;
+    min-height:140px;
+    resize:vertical;
+}
 </style>

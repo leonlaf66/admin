@@ -60,6 +60,14 @@ class SettingController extends \module\core\component\Controller
                         }
                     ]
                 ]
+            ],
+            [
+                'title' => 'Seo',
+                'items' => [
+                    'friended.links' => [
+                        'title' => 'Friended Links'
+                    ]
+                ]
             ]
         ];
 
