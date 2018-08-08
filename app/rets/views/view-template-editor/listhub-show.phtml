@@ -4,11 +4,12 @@ use yii\bootstrap\ActiveForm;
 
 $_options = ['position'=>$this::POS_HEAD, 'depends' => '\module\page\assets\Base'];
 
-$this->registerJsFile('http://codemirror.net/2/lib/codemirror.js', $_options);
-$this->registerJsFile('http://codemirror.net/2/mode/xml/xml.js', $_options);
-$this->registerJsFile('http://codemirror.net/2/lib/util/closetag.js', $_options);
-$this->registerJsFile('http://codemirror.net/2/lib/util/foldcode.js', $_options);
-$this->registerCssFile('http://codemirror.net/2/lib/codemirror.css', $_options);
+$_cm = 'https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.39.2';
+$this->registerJsFile("{$_cm}/codemirror.min.js", $_options);
+$this->registerJsFile("{$_cm}/mode/xml/xml.min.js", $_options);
+$this->registerJsFile("{$_cm}/addon/edit/closetag.min.js", $_options);
+$this->registerJsFile("{$_cm}/addon/fold/foldcode.min.js", $_options);
+$this->registerCssFile("{$_cm}/codemirror.css", $_options);
 ?>
 
 <style>
@@ -22,6 +23,9 @@ ul.types > li.active > a{background:#f90;color:#fff;}
 .field-viewtemplateeditorform-content .help-block{background:#f7f7f7;padding:5px;margin:0;border-top:#eee solid 1px;}
 .control-label.col-sm-3{display:none;}
 .col-sm-6{width:100% !important;}
+.CodeMirror {
+  height:700px;
+}
 </style>
 
 <?php
@@ -50,7 +54,10 @@ $form = ActiveForm::begin([
 </ul>
 
 <div style="border-top: 1px solid #cecece; border-bottom: 1px solid #cecece;">
-    <?php echo $form->field($model, 'xml_rules')->textArea(['id'=>'code', 'rows'=>'40', 'cols'=>'120']) ?>
+    <?php echo $form->field($model, 'xml_rules')->textArea([
+      'id'=>'code',
+      'cols'=>'120',
+    ]) ?>
 </div>
 <?php ActiveForm::end(); ?>
 
@@ -74,12 +81,6 @@ $form = ActiveForm::begin([
       }
       cm.refresh();
     }
-    CodeMirror.connect(window, "resize", function() {
-      var showing = document.body.getElementsByClassName("CodeMirror-fullscreen")[0];
-      if (!showing) return;
-      showing.CodeMirror.getScrollerElement().style.height = winHeight() + "px";
-      showing.CodeMirror.getScrollerElement().style.width = winWidth() + "px";
-    });
 
   var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
     mode: {name: "xml", alignCDATA: true},
@@ -97,13 +98,11 @@ $form = ActiveForm::begin([
         },
         "Esc": function(cm) {
           setFullScreen(cm, !isFullScreen(cm));
-          //if (isFullScreen(cm)) setFullScreen(cm, false);
         }
     },
     wordWrap: true,
     lineWrapping: true,
     onGutterClick: CodeMirror.newFoldFunction(CodeMirror.braceRangeFinder)
   });
-  setFullScreen(editor, true);
 </script>
 
