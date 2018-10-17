@@ -1,13 +1,32 @@
 <div class="sd-grid">
-	<?php foreach($codes as $idx=>$code):?>
-		<div class="row-item">
-	    	<?php echo $idx + 1?>: 
-	    	<a href="/index.php?r=schooldistrict/schooldistrict/edit&id=<?php echo urlencode($code)?>">
-	    		<?php echo $code?>
-	    	</a>
-        <!--&nbsp;&nbsp;<a class="btn-remove" href="/index.php?r=schooldistrict/schooldistrict/remove&id=<?php echo urlencode($code)?>">x</a>-->
-	    </div>
-	<?php endforeach?>
+  <table class="table" style="width:auto;max-width:100%">
+    <thead>
+      <tr>
+        <th colspan="2">ITEM</th>
+        <th>CITY IDS</th>
+        <th>ACTIONS</th>
+      </tr>
+    </thead>
+    <tbody>
+      <?php foreach($items as $item):?>
+        <?php $json = json_decode($item['json']);?>
+      <tr>
+        <td>
+          <img style="width:90px" src="<?php echo \WS::$app->params['media']['baseUrl'].'/school-area/images/'.$item['image'].'.jpg'?>"/>
+          <br/>
+          #<?php echo $item['id']?> / <?php echo $item['code']?>
+        </td>
+        <td><?php echo implode('/', $json->name)?></td>
+        <td><?php echo $item['city_id']?></td>
+        <td>
+          <a href="/index.php?r=schooldistrict/schooldistrict/edit&id=<?php echo $item['id']?>">
+            <span class="glyphicon glyphicon-pencil"></span>
+          </a>
+        </td>
+      </tr>
+      <?php endforeach?>
+    </tbody>
+  </table>
 </div>
 <div style="margin-top:5px;">
 <input value="" placeholder="新编码" id="input-new-code"/><a id="btn-new" class="btn btn-default" style="margin-left:4px;">新增</a>
@@ -21,7 +40,7 @@
 			$('#input-new-code').focus();
 			return;
 		}
-		window.location.href = '/index.php?r=schooldistrict/schooldistrict/edit&id='+newCode;
+		window.location.href = '/index.php?r=schooldistrict/schooldistrict/edit&code='+newCode;
 	});
 })(jQuery);
 </script>
@@ -37,8 +56,5 @@
     background: #337ab7;
     color: #fff;
     border: solid 1px #fff;
-}
-.sd-grid .row-item:hover .btn-remove {
-	display:inline-block;
 }
 </style>

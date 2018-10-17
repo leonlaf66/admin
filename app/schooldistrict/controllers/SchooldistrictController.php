@@ -10,25 +10,40 @@ class SchooldistrictController extends \module\core\component\Controller
     {
         $this->view->setActiveMenuId('schooldistrict');
 
-        $codes = SchoolDistrict::xFind()->select('code')->column();
+        $items = (new \yii\db\Query())
+            ->from('schooldistrict')
+            ->select(['id', 'code', 'city_id', 'json', 'image'])
+            ->orderBy('sort_order', 'ASC')
+            ->all();
 
-        return $this->render('index.phtml', ['codes'=>$codes]);
+        return $this->render('index.phtml', ['items'=>$items]);
     }
 
-    public function actionEdit($id)
+    public function actionEdit($id, $code = null)
     {
-        $id = urldecode($id);
+        $code = $code ? urldecode($code) : null;
 
-        $schoolDistrict = SchoolDistrict::find()->where(['code'=>$id])->one();
+        $schoolDistrict = SchoolDistrict::find()->where(['id'=>$id])->one();
         if(! $schoolDistrict) {
             $schoolDistrict = new SchoolDistrict();
-            $schoolDistrict->code = $id;
+            $schoolDistrict->code = $code;
             $schooldistrict->name = '';
         }
 
         if(WS::$app->request->isPost) {
             $json = WS::$app->request->post('json');
-            $schoolDistrict->setupJsonData($json);
+            $json = json_decode($json);
+            $json->code = strtoupper($json->code);
+
+            if(!preg_match_all('/[A-Z]{4}/', $json->code, $matches)) {
+                echo 'The code has error!';
+                exit;
+            }
+            $json->code = implode('/', $matches[0]);
+
+            $schoolDistrict->code = $json->code;
+            $schoolDistrict->city_id = $this->matchCtiyIdsExpr($json->code);
+            $schoolDistrict->setupJsonData(json_encode($json));
             $schoolDistrict->save();
         }
         return $this->render('edit.phtml', ['schoolDistrict'=>$schoolDistrict]);
@@ -37,8 +52,21 @@ class SchooldistrictController extends \module\core\component\Controller
     public function actionRemove($id)
     {
         $id = urldecode($id);
-        $schoolDistrict = SchoolDistrict::find()->where(['code'=>$id])->one();
+        $schoolDistrict = SchoolDistrict::find()->where(['id'=>$id])->one();
         $schoolDistrict->delete();
         $this->redirect('/index.php?r=schooldistrict%2Fschooldistrict%2Findex');
+    }
+
+    private function matchCtiyIdsExpr($code)
+    {
+        preg_match_all('/[A-Z]{4}/', $code, $matches);
+        $codes = $matches[0];
+
+        $cityIds = (new \yii\db\Query())
+            ->from('town')
+            ->select('id')
+            ->where(['in', 'short_name', $codes])
+            ->column();
+        return '{'.implode(',', $cityIds).'}';
     }
 }

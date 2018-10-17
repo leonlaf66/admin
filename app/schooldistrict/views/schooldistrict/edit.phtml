@@ -361,7 +361,7 @@ new Vue({
     $('#btn-submit').click(function(){
         var json = $('#json_data').val();
         var csrf = '<?php echo \WS::$app->getRequest()->getCsrfToken()?>';
-        $.post('/index.php?r=schooldistrict/schooldistrict/edit&id=<?php echo urlencode($schoolDistrict->code)?>', {json: json, _csrf: csrf}, function(){
+        $.post('/index.php?r=schooldistrict/schooldistrict/edit&id=<?php echo urlencode($schoolDistrict->id)?>', {json: json, _csrf: csrf}, function(){
             window.location = '/index.php?r=schooldistrict%2Fschooldistrict%2Findex';
         });
     });
